@@ -3,21 +3,20 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
-import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
-import 'package:homeapp/bloc/Login/login_bloc.dart';
-import '../CustomControls/LoginForm.dart';
+import 'package:homeapp/bloc/Register/register_bloc.dart';
+import '../CustomControls/RegisterForm.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   final AuthRepository repo;
 
-  const LoginPage({Key key, this.repo}) : super(key: key);
+  RegisterPage(this.repo) : assert(repo != null);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocProvider<LoginBloc>(
+        body: BlocProvider<RegisterBloc>(
       create: (context) {
-        return LoginBloc(BlocProvider.of<AuthenticationBloc>(context), repo);
+        return RegisterBloc(repo);
       },
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -28,7 +27,7 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  'Sign in',
+                  'Register',
                   style: TextStyle(
                       color: Colors.blue,
                       fontStyle: FontStyle.normal,
@@ -36,7 +35,7 @@ class LoginPage extends StatelessWidget {
                       fontSize: 50),
                 ),
               ),
-              LoginForm(),
+              RegisterForm(),
             ],
           ),
         ),

@@ -1,0 +1,6 @@
+{
+    "serviceUrl" : "http://10.0.2.2:3000",
+    "getUserPath" : "/auth/users",
+    "loginPath" : "/auth/login",
+    "registerPath" : "/auth/register"
+}
