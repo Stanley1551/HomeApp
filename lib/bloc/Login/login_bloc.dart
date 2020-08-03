@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
+import 'package:homeapp/Repositories/Models/Contracts/LoginResult.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -26,10 +27,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is LoginButtonPressed) {
       yield LoginInProgress();
 
-      bool result = await repo.login(event.username, event.password);
+      LoginResult result = await repo.login(event.username, event.password);
 
-      if (!result) {
-        yield LoginFailed();
+      if (!result.isSuccess) {
+        yield LoginFailed(result.message);
       } else {
         authBloc.add(AuthenticationLoggedIn());
       }

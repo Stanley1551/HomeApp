@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homeapp/CustomControls/CustomDialog.dart';
 import 'package:homeapp/bloc/Login/login_bloc.dart';
 
 import 'CustomTextField.dart';
@@ -25,6 +26,10 @@ class _LoginFormState extends State<LoginForm> {
       listener: (BuildContext context, LoginState state) {
         if (state is SwitchToRegister) {
           Navigator.pushNamed(context, '/register');
+        } else if (state is LoginFailed) {
+          showDialog(
+              context: context,
+              builder: (context) => CustomDialog(state.message, Icons.cancel));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {

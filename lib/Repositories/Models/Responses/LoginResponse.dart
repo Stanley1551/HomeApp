@@ -5,8 +5,10 @@ class LoginResponse extends Response {
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = LoginData(
-        json['data']['id'], json['data']['allowed'], json['data']['token']);
+    if (json['data'] != null) {
+      data = LoginData(
+          json['data']['id'], json['data']['allowed'], json['data']['token']);
+    }
   }
 }
 
