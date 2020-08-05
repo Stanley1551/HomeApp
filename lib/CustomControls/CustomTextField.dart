@@ -70,14 +70,14 @@ class CustomLoginTextField extends StatelessWidget {
   String _usernameValidationForRegister(String value) {
     value = value.trim();
 
-    Pattern pattern = r'^(?!=.*?[0-9])(?!=.*?[!@#\$&*~]).{8,}$';
+    Pattern pattern = r'^[a-zA-Z0-9_-]{3,16}$';
     RegExp regex = new RegExp(pattern);
 
     if (value == null || value.length < 3) {
       return 'Username must be at least 3 characters long';
     }
 
-    if (regex.hasMatch(value)) {
+    if (!regex.hasMatch(value)) {
       return 'Invalid username.';
     }
 
@@ -86,7 +86,7 @@ class CustomLoginTextField extends StatelessWidget {
 
   String _passwordValidationForRegister(String value) {
     value = value.trim();
-    Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])$';
+    Pattern pattern = r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])';
     RegExp regex = new RegExp(pattern);
 
     if (value.isEmpty || value.length < 6) {

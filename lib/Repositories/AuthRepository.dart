@@ -1,4 +1,5 @@
 import 'package:global_configuration/global_configuration.dart';
+import 'package:homeapp/Repositories/Models/Contracts/RegisterResult.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'Models/Requests/Requests.dart';
@@ -10,7 +11,7 @@ abstract class AAuthRepository {
   Future<Object> getAllUsers();
   Future<Object> getUsersByName(String name);
   Future<Object> getUserById(int id);
-  Future<bool> register(String username, String password);
+  Future<RegisterResult> register(String username, String password);
   Future<LoginResult> login(String username, String password);
   Future<String> retrieveToken();
   Future<void> saveToken(String token);
@@ -46,9 +47,10 @@ class AuthRepository extends AAuthRepository {
     throw UnimplementedError();
   }
 
-  //TODO handle status types, save token
   @override
   Future<LoginResult> login(String username, String password) async {
+    bool isSuccess = false;
+    String message = '';
     AuthRequest requestBody = AuthRequest(username, password);
     http.Response result =
         await http.post(loginUrl, body: requestBody.toJson());
@@ -60,34 +62,49 @@ class AuthRepository extends AAuthRepository {
         String token = response.data.token;
         await saveToken(token);
 
-        return LoginResult(true);
+        isSuccess = true;
       }
     } else if (result.statusCode == 400) {
       if (response.status == 3) {
-        return LoginResult(false, message: 'Invalid username');
+        message = 'Invalid username';
       } else if (response.status == 4) {
-        return LoginResult(false, message: 'Invalid password');
+        message = 'Invalid password';
       }
     } else if (result.statusCode == 401) {
-      return LoginResult(false, message: 'Invalid password');
+      message = 'Invalid password';
+    } else {
+      message = 'Unexpected Error';
     }
 
-    return LoginResult(false, message: 'Unexpected error');
+    return LoginResult(isSuccess, message: message);
   }
 
   @override
-  Future<bool> register(String username, String password) async {
+  Future<RegisterResult> register(String username, String password) async {
+    bool isSuccess = false;
+    String message = '';
     AuthRequest requestBody = AuthRequest(username, password);
     var result = await http.post(registerUrl, body: requestBody.toJson());
+    var response = RegisterResponse.fromJson(jsonDecode(result.body));
 
-    if (result != null && result.statusCode == 200) {
-      var response = RegisterResponse.fromJson(jsonDecode(result.body));
-
+    if (result != null && result.statusCode == 201) {
       if (response.status == 1) {
-        return true;
+        isSuccess = true;
       }
+    } else if (result.statusCode == 400) {
+      if (response.status == 3) {
+        message = 'Invalid username!';
+      } else if (response.status == 4) {
+        message = 'Invalid password!';
+      }
+    } else if (result.statusCode == 409) {
+      message = 'Username already exists!';
+    } else if (result.statusCode == 500) {
+      message = 'User creation failed on server!';
+    } else {
+      message = 'Unexpected Error';
     }
-    return false;
+    return RegisterResult(isSuccess, message: message);
   }
 
   @override

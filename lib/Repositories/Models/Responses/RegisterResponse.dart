@@ -4,7 +4,9 @@ class RegisterResponse extends Response {
   RegisterData data;
   RegisterResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = RegisterData(json['id']);
+    if (json['data'] != null) {
+      data = RegisterData(json['id']);
+    }
   }
 }
 
