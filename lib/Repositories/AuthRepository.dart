@@ -15,15 +15,15 @@ abstract class AAuthRepository {
   Future<RegisterResult> register(String username, String password);
   Future<LoginResult> login(String username, String password);
   Future<String> retrieveToken();
-  Future<void> _saveToken(String token);
-
+  Future<void> saveToken(String token);
+  Future<bool> deleteToken();
+  AuthValidator validator;
   AAuthRepository();
 }
 
 class AuthRepository extends AAuthRepository {
   String loginUrl;
   String registerUrl;
-  AuthValidator validator;
 
   AuthRepository() {
     final String url = GlobalConfiguration().getString('serviceUrl');
@@ -37,7 +37,7 @@ class AuthRepository extends AAuthRepository {
     loginUrl = url + loginPath;
     registerUrl = url + registerPath;
 
-    this.validator = AuthValidator((token) => _saveToken(token));
+    this.validator = AuthValidator((token) => saveToken(token));
   }
   @override
   Future<Object> getAllUsers() {
@@ -56,17 +56,32 @@ class AuthRepository extends AAuthRepository {
 
   @override
   Future<LoginResult> login(String username, String password) async {
+    http.Response result;
     AuthRequest requestBody = AuthRequest(username, password);
-    http.Response result =
-        await http.post(loginUrl, body: requestBody.toJson());
+    try {
+      result = await http
+          .post(loginUrl, body: requestBody.toJson())
+          .timeout(Duration(seconds: 10));
+    } catch (e) {
+      return LoginResult(false,
+          message: 'Unfortunately, server is not available.');
+    }
 
     return validator.validateLogin(result);
   }
 
   @override
   Future<RegisterResult> register(String username, String password) async {
+    http.Response result;
     AuthRequest requestBody = AuthRequest(username, password);
-    var result = await http.post(registerUrl, body: requestBody.toJson());
+    try {
+      result = await http
+          .post(registerUrl, body: requestBody.toJson())
+          .timeout(Duration(seconds: 10));
+    } catch (e) {
+      return RegisterResult(false,
+          message: 'Unfortunately, server is not available.');
+    }
 
     return validator.validateRegister(result);
   }
@@ -78,7 +93,7 @@ class AuthRepository extends AAuthRepository {
   }
 
   @override
-  Future<bool> _saveToken(String token) async {
+  Future<bool> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
 
     return await prefs.setString('token', token);
@@ -87,6 +102,6 @@ class AuthRepository extends AAuthRepository {
   Future<bool> deleteToken() async {
     //TODO new state?
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    return await prefs.clear();
   }
 }

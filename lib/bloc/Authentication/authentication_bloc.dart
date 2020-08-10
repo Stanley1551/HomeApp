@@ -9,7 +9,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final AuthRepository repo;
+  final AAuthRepository repo;
   AuthenticationBloc(this.repo) : assert(repo != null);
 
   @override

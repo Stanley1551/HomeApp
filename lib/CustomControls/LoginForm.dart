@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homeapp/CustomControls/CustomCircularProgressDialog.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
 import 'package:homeapp/bloc/Login/login_bloc.dart';
 
@@ -31,6 +32,11 @@ class _LoginFormState extends State<LoginForm> {
               context: context,
               builder: (context) => CustomDialog(state.message, Icons.cancel));
         }
+        /*else if (state is LoginInProgress) {
+          showDialog(
+              context: context,
+              builder: (context) => CustomCircularProgressDialog());
+        }*/
       },
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Form(
@@ -67,6 +73,10 @@ class _LoginFormState extends State<LoginForm> {
                     padding: const EdgeInsets.only(top: 30.0),
                     child: MaterialButton(
                         onPressed: () {
+                          if (state is LoginInProgress) {
+                            //just ignore the user spamming
+                            return;
+                          }
                           bool validateResult =
                               _formKey.currentState.validate();
 
@@ -83,14 +93,16 @@ class _LoginFormState extends State<LoginForm> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                             side: BorderSide.none))),
-                MaterialButton(
-                    onPressed: () => BlocProvider.of<LoginBloc>(context)
-                        .add(RegisterButtonPressed()),
-                    child: Text('Register'),
-                    minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Colors.white))),
+                state is LoginInProgress
+                    ? CircularProgressIndicator()
+                    : MaterialButton(
+                        onPressed: () => BlocProvider.of<LoginBloc>(context)
+                            .add(RegisterButtonPressed()),
+                        child: Text('Register'),
+                        minWidth: 240,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(color: Colors.white))),
               ]),
         );
       }),

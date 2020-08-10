@@ -7,7 +7,7 @@ import 'package:homeapp/bloc/Register/register_bloc.dart';
 import '../CustomControls/RegisterForm.dart';
 
 class RegisterPage extends StatelessWidget {
-  final AuthRepository repo;
+  final AAuthRepository repo;
 
   RegisterPage(this.repo) : assert(repo != null);
 

@@ -80,20 +80,26 @@ class _RegisterFormState extends State<RegisterForm> {
                     child: Divider(
                       color: Colors.black,
                     )),
-                MaterialButton(
-                    onPressed: () => _handleRegisterButtonPushed(),
-                    child: Text('Register'),
-                    minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Colors.white))),
+                state is RegisterInProgress
+                    ? CircularProgressIndicator()
+                    : MaterialButton(
+                        onPressed: () => _handleRegisterButtonPushed(state),
+                        child: Text('Register'),
+                        minWidth: 240,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(color: Colors.white))),
               ]),
         );
       }),
     );
   }
 
-  _handleRegisterButtonPushed() {
+  _handleRegisterButtonPushed(RegisterState state) {
+    if (state is RegisterInProgress) {
+      //ignore spamming, lol
+      return;
+    }
     bool validateResult = _formKey.currentState.validate();
 
     if (validateResult) {

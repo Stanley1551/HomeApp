@@ -10,7 +10,7 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  AuthRepository repo;
+  AAuthRepository repo;
 
   RegisterBloc(this.repo) : assert(repo != null); // : super(RegisterInitial());
 
@@ -25,6 +25,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       //not yet implemented, back button should do the trick
       yield SwitchToLogin();
     } else if (event is RegisterButtonPressed) {
+      yield RegisterInProgress();
       if (event.password.compareTo(event.passwordAgain) != 0) {
         yield RegisterFailed('Password fields must match!');
         return;

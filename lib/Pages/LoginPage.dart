@@ -8,7 +8,7 @@ import 'package:homeapp/bloc/Login/login_bloc.dart';
 import '../CustomControls/LoginForm.dart';
 
 class LoginPage extends StatelessWidget {
-  final AuthRepository repo;
+  final AAuthRepository repo;
 
   const LoginPage({Key key, this.repo}) : super(key: key);
 

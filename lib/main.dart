@@ -15,7 +15,7 @@ void main() async {
       create: (context) {
         return AuthenticationBloc(repo)..add(AuthenticationStarted());
       },
-      child: MyApp()));
+      child: MyApp(repo)));
 }
 
 Future loadConfiguration() async {
@@ -24,7 +24,9 @@ Future loadConfiguration() async {
 }
 
 class MyApp extends StatelessWidget {
-  final AuthRepository repo = AuthRepository();
+  final AAuthRepository repo;
+  MyApp(this.repo);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

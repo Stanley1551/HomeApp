@@ -12,3 +12,5 @@ class RegisterFailed extends RegisterState {
 
   RegisterFailed(this.message);
 }
+
+class RegisterInProgress extends RegisterState {}
