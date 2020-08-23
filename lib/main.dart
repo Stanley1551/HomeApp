@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Home app',
       theme: ThemeData(
+        //canvasColor: Colors.black87,
         fontFamily: 'DroidSans',
         backgroundColor: AppColors.background,
         brightness: Brightness.dark,

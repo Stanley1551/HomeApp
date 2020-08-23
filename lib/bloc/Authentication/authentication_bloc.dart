@@ -20,8 +20,8 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     //change these to preserve login state, or not
-    repo.deleteToken();
-    /*if (event is AuthenticationStarted) {
+    //repo.deleteToken();
+    if (event is AuthenticationStarted) {
       String token = await repo.retrieveToken();
       yield AuthenticationInProgress();
 
@@ -30,8 +30,7 @@ class AuthenticationBloc
       } else {
         yield AuthenticationFailed();
       }
-    } else */
-    if (event is AuthenticationLoggedIn) {
+    } else if (event is AuthenticationLoggedIn) {
       yield AuthenticationSucceeded();
     } else if (event is AuthenticationLoggedOut) {
       //TODO

@@ -1,12 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:global_configuration/global_configuration.dart';
 import 'package:homeapp/Repositories/Models/Contracts/RegisterResult.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'AuthValidator.dart';
 import 'Models/Requests/Requests.dart';
-import 'Models/Responses/Responses.dart';
 import 'Models/Contracts/LoginResult.dart';
-import 'dart:convert';
 
 abstract class AAuthRepository {
   Future<Object> getAllUsers();
@@ -62,9 +63,18 @@ class AuthRepository extends AAuthRepository {
       result = await http
           .post(loginUrl, body: requestBody.toJson())
           .timeout(Duration(seconds: 10));
+    } on TimeoutException catch (e) {
+      return LoginResult(false,
+          message: 'Unfortunately, server is not responding.');
+    } on SocketException catch (e) {
+      return LoginResult(false,
+          message:
+              e.message + ', ' + e.address.address + ', ' + e.osError.message);
     } catch (e) {
       return LoginResult(false,
-          message: 'Unfortunately, server is not available.');
+          message: '(' +
+              e.runtimeType.toString() +
+              ') Unfortunately, server is not reachable.');
     }
 
     return validator.validateLogin(result);
@@ -78,9 +88,12 @@ class AuthRepository extends AAuthRepository {
       result = await http
           .post(registerUrl, body: requestBody.toJson())
           .timeout(Duration(seconds: 10));
-    } catch (e) {
+    } on TimeoutException catch (e) {
       return RegisterResult(false,
-          message: 'Unfortunately, server is not available.');
+          message: 'Unfortunately, server is not responding.');
+    } on Exception catch (e) {
+      return RegisterResult(false,
+          message: 'Unfortunately, server is not reachable.');
     }
 
     return validator.validateRegister(result);
