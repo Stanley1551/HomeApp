@@ -20,7 +20,12 @@ void main() async {
 
 Future loadConfiguration() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromAsset("configuration");
+  bool isProduction = bool.fromEnvironment('dart.vm.product');
+  if (isProduction) {
+    await GlobalConfiguration().loadFromAsset("configurationprod");
+  } else {
+    await GlobalConfiguration().loadFromAsset("configuration");
+  }
 }
 
 class MyApp extends StatelessWidget {
