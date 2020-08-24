@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
         if (state is AuthenticationSucceeded) {
-          return HomePage();
+          return HomePage(repo);
+        } else if (state is AuthenticationExited) {
+          return LoginPage(repo: repo);
         } else {
           return LoginPage(repo: repo);
         }
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
               repo: repo,
             ),
         '/register': (context) => RegisterPage(repo),
-        '/home': (context) => HomePage(),
+        '/home': (context) => HomePage(repo),
       },
     );
   }

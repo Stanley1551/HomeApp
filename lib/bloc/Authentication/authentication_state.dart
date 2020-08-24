@@ -10,3 +10,5 @@ class AuthenticationInProgress extends AuthenticationState {}
 class AuthenticationFailed extends AuthenticationState {}
 
 class AuthenticationSucceeded extends AuthenticationState {}
+
+class AuthenticationExited extends AuthenticationState {}

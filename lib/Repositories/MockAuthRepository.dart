@@ -49,4 +49,10 @@ class MockAuthRepository extends AAuthRepository {
     mockToken = '';
     return true;
   }
+
+  @override
+  Future<String> getAuthenticatedUsername() async {
+    return await Future.delayed(Duration(seconds: 1))
+        .then((value) => 'MockUser');
+  }
 }

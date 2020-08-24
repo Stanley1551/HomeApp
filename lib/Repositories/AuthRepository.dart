@@ -18,6 +18,7 @@ abstract class AAuthRepository {
   Future<String> retrieveToken();
   Future<void> saveToken(String token);
   Future<bool> deleteToken();
+  Future<String> getAuthenticatedUsername();
   AuthValidator validator;
   AAuthRepository();
 }
@@ -76,6 +77,8 @@ class AuthRepository extends AAuthRepository {
               e.runtimeType.toString() +
               ') Unfortunately, server is not reachable.');
     }
+    //TODO??
+    await saveUserName(username);
 
     return validator.validateLogin(result);
   }
@@ -95,6 +98,8 @@ class AuthRepository extends AAuthRepository {
       return RegisterResult(false,
           message: 'Unfortunately, server is not reachable.');
     }
+    //TODO?
+    await saveUserName(username);
 
     return validator.validateRegister(result);
   }
@@ -116,5 +121,21 @@ class AuthRepository extends AAuthRepository {
     //TODO new state?
     final prefs = await SharedPreferences.getInstance();
     return await prefs.clear();
+  }
+
+  ///Loads the authenticated user's name.
+  ///Upon error, or if none authenticated, returns an empty string.
+  Future<String> getAuthenticatedUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      return prefs.getString('username');
+    } catch (e) {
+      return '';
+    }
+  }
+
+  Future<bool> saveUserName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.setString('username', name);
   }
 }

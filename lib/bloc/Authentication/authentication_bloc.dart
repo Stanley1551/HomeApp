@@ -12,6 +12,11 @@ class AuthenticationBloc
   final AAuthRepository repo;
   AuthenticationBloc(this.repo) : assert(repo != null);
 
+  //TODO later: construct a base user class, and retrieve/save that
+  Future<String> getUserName() async {
+    return await repo.getAuthenticatedUsername();
+  }
+
   @override
   AuthenticationState get initialState => AuthenticationInitial();
 
@@ -33,8 +38,8 @@ class AuthenticationBloc
     } else if (event is AuthenticationLoggedIn) {
       yield AuthenticationSucceeded();
     } else if (event is AuthenticationLoggedOut) {
-      //TODO
       await repo.deleteToken();
+      yield AuthenticationExited();
     }
   }
 }
