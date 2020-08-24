@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
+import 'package:homeapp/bloc/Navigation/navigation_bloc.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -52,10 +53,22 @@ class CustomDrawer extends StatelessWidget {
                     bottom: BorderSide(color: Colors.grey),
                   )),
             ),
-            ListTile(title: Text('Dashboard')),
+            ListTile(
+                title: Text('Dashboard'),
+                onTap: () {
+                  _navigationClicked(context, NavigationDashboard());
+                }),
             ListTile(
               title: Text('Todo list'),
-              onTap: () {},
+              onTap: () {
+                _navigationClicked(context, NavigationTodoList());
+              },
+            ),
+            ListTile(
+              title: Text('Devices'),
+              onTap: () {
+                _navigationClicked(context, NavigationDevices());
+              },
             ),
             Divider(
               color: Colors.grey,
@@ -75,6 +88,12 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigationClicked(BuildContext context, NavigationEvent navEvent) {
+    BlocProvider.of<NavigationBloc>(context).add(navEvent);
+    //pop navbar?
+    Navigator.maybePop(context);
   }
 
   void _logoutClicked(BuildContext context) {
