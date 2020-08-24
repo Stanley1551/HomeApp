@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CustomDialog extends StatelessWidget {
   final String message;
   final IconData icon;
+  final bool isYesNoQuestion;
 
-  CustomDialog(this.message, this.icon);
+  CustomDialog(this.message, this.icon, {this.isYesNoQuestion = false});
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +35,31 @@ class CustomDialog extends StatelessWidget {
                 ),
               ],
             ),
-            RaisedButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _getButtons(context))
           ],
         ),
       ),
     );
+  }
+
+  List<RaisedButton> _getButtons(BuildContext context) {
+    List<RaisedButton> buttons = new List<RaisedButton>();
+
+    buttons.add(RaisedButton(
+      child: Text('OK'),
+      onPressed: () => Navigator.of(context).pop(true),
+    ));
+
+    if (isYesNoQuestion) {
+      buttons.add(RaisedButton(
+        child: Text('No'),
+        onPressed: () => Navigator.of(context).pop(false),
+      ));
+    }
+
+    return buttons;
   }
 }

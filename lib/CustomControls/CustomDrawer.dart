@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:homeapp/bloc/Navigation/navigation_bloc.dart';
 
+import 'CustomDialog.dart';
+
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(context) {
@@ -92,11 +94,18 @@ class CustomDrawer extends StatelessWidget {
 
   void _navigationClicked(BuildContext context, NavigationEvent navEvent) {
     BlocProvider.of<NavigationBloc>(context).add(navEvent);
-    //pop navbar?
     Navigator.maybePop(context);
   }
 
-  void _logoutClicked(BuildContext context) {
-    BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLoggedOut());
+  void _logoutClicked(BuildContext context) async {
+    var retval = await showDialog(
+        context: context,
+        builder: (context) => CustomDialog(
+            'Are you sure about logging out?', Icons.warning,
+            isYesNoQuestion: true));
+    if (retval) {
+      BlocProvider.of<AuthenticationBloc>(context)
+          .add(AuthenticationLoggedOut());
+    }
   }
 }
