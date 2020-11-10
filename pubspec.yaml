@@ -28,6 +28,9 @@ dependencies:
   global_configuration: ^1.5.0
   shared_preferences: ^0.5.0
   fluttertoast: ^3.1.0
+  firebase_core: ^0.5.2
+  firebase_database: ^4.3.0
+  intl: ^0.16.0
 
 
   # The following adds the Cupertino Icons font to your application.
