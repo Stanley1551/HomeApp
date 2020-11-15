@@ -6,7 +6,8 @@ import 'Models/Responses/Responses.dart';
 
 class AuthValidator {
   final Function(String) saveTokenCallback;
-  AuthValidator(this.saveTokenCallback);
+  final Function(int) saveIDCallback;
+  AuthValidator(this.saveTokenCallback, this.saveIDCallback);
 
   LoginResult validateLogin(http.Response result) {
     bool isSuccess = false;
@@ -17,6 +18,7 @@ class AuthValidator {
       if (response.status == 1) {
         String token = response.data.token;
         saveTokenCallback(token);
+        saveIDCallback(response.data.id);
 
         isSuccess = true;
       }

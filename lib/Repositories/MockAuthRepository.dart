@@ -55,4 +55,16 @@ class MockAuthRepository extends AAuthRepository {
     return await Future.delayed(Duration(seconds: 1))
         .then((value) => 'MockUser');
   }
+
+  @override
+  Future<int> getAuthenticatedUserID() {
+    // TODO: implement getAuthenticatedUserID
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> saveUserID(int id) {
+    // TODO: implement saveUserID
+    throw UnimplementedError();
+  }
 }

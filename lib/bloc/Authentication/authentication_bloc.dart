@@ -17,6 +17,10 @@ class AuthenticationBloc
     return await repo.getAuthenticatedUsername();
   }
 
+  Future<int> getUserID() async {
+    return await repo.getAuthenticatedUserID();
+  }
+
   @override
   AuthenticationState get initialState => AuthenticationInitial();
 

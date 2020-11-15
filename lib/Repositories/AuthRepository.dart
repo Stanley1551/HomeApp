@@ -19,6 +19,8 @@ abstract class AAuthRepository {
   Future<void> saveToken(String token);
   Future<bool> deleteToken();
   Future<String> getAuthenticatedUsername();
+  Future<int> getAuthenticatedUserID();
+  Future<bool> saveUserID(int id);
   AuthValidator validator;
   AAuthRepository();
 }
@@ -39,7 +41,8 @@ class AuthRepository extends AAuthRepository {
     loginUrl = url + loginPath;
     registerUrl = url + registerPath;
 
-    this.validator = AuthValidator((token) => saveToken(token));
+    this.validator =
+        AuthValidator((token) => saveToken(token), (id) => saveUserID(id));
   }
   @override
   Future<Object> getAllUsers() {
@@ -137,5 +140,19 @@ class AuthRepository extends AAuthRepository {
   Future<bool> saveUserName(String name) async {
     final prefs = await SharedPreferences.getInstance();
     return await prefs.setString('username', name);
+  }
+
+  Future<int> getAuthenticatedUserID() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      return prefs.getInt('userid');
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  Future<bool> saveUserID(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.setInt('userid', id);
   }
 }
