@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
 import 'package:homeapp/CustomControls/CustomTextEntryDialog.dart';
 import 'dart:async';
-import 'dart:io' show Platform;
+import '../Constants/TodoListConstants.dart';
 
 import 'package:homeapp/CustomControls/TodoElement.dart';
 import 'package:homeapp/Repositories/Models/Contracts/TodoEntry.dart';
@@ -21,7 +21,7 @@ class TodoList extends StatelessWidget {
       child: FirebaseAnimatedList(
         reverse: false,
         sort: (a, b) => _sortRows(a, b),
-        query: _databaseReference,
+        query: _databaseReference.endAt(true).orderByChild(TodoListConstants.isDone).limitToFirst(10),
         itemBuilder: (context, snapshot, animation, index) =>
             _itemBuild(context, snapshot, animation, index),
       ),
@@ -40,11 +40,19 @@ class TodoList extends StatelessWidget {
   }
 
   Future<void> _insertListItem(String elementName, BuildContext context) async {
+    //validation
+    if(elementName == null || elementName.trim().length == 0)
+    {
+      return;
+    }
+    elementName = elementName.trim();
+    
     var newChild = _databaseReference.push();
     Map<String, dynamic> values = Map<String, dynamic>();
-    values['createdAt'] = DateTime.now().toString();
-    values['isDone'] = false;
-    values['description'] = elementName;
+    values[TodoListConstants.createdBy] = await BlocProvider.of<AuthenticationBloc>(context).getUserID();
+    values[TodoListConstants.createdAt] = DateTime.now().toString();
+    values[TodoListConstants.isDone] = false;
+    values[TodoListConstants.desc] = elementName;
     try {
       await newChild.set(values);
     } catch (e) {
@@ -65,9 +73,9 @@ class TodoList extends StatelessWidget {
   }
 
   int _sortRows(DataSnapshot a, DataSnapshot b) {
-    return DateTime.parse(b.value['createdAt'])
-        .difference(DateTime.parse(a.value['createdAt']))
-        .inDays;
+    var aValue = a.value[TodoListConstants.isDone] ? -DateTime.parse(a.value[TodoListConstants.doneAt]).microsecondsSinceEpoch : DateTime.parse(a.value[TodoListConstants.createdAt]).microsecondsSinceEpoch;
+    var bValue = b.value[TodoListConstants.isDone] ? -DateTime.parse(b.value[TodoListConstants.doneAt]).microsecondsSinceEpoch : DateTime.parse(b.value[TodoListConstants.createdAt]).microsecondsSinceEpoch;
+    return bValue-aValue;
   }
 
   Future<void> _modifyDoneChange(
@@ -76,15 +84,15 @@ class TodoList extends StatelessWidget {
     Map<String, dynamic> map = Map<String, dynamic>();
     if (entry.isDone) {
       //set undone
-      map['doneAt'] = null;
-      map['doneBy'] = null;
-      map['isDone'] = false;
+      map[TodoListConstants.doneAt] = null;
+      map[TodoListConstants.doneBy] = null;
+      map[TodoListConstants.isDone] = false;
     } else {
       //set done
-      map['doneAt'] = DateTime.now().toString();
-      map['doneBy'] =
+      map[TodoListConstants.doneAt] = DateTime.now().toString();
+      map[TodoListConstants.doneBy] =
           await BlocProvider.of<AuthenticationBloc>(context).getUserID();
-      map['isDone'] = true;
+      map[TodoListConstants.isDone] = true;
     }
     try {
       await child.update(map);
