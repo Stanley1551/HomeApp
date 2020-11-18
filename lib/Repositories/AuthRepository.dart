@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:homeapp/Repositories/Models/Contracts/RegisterResult.dart';
+import 'package:homeapp/Repositories/Models/Contracts/UsersResult.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'AuthValidator.dart';
@@ -21,6 +23,7 @@ abstract class AAuthRepository {
   Future<String> getAuthenticatedUsername();
   Future<int> getAuthenticatedUserID();
   Future<bool> saveUserID(int id);
+  Future<String> retrieveUserNameByID(int id);
   AuthValidator validator;
   AAuthRepository();
 }
@@ -28,11 +31,14 @@ abstract class AAuthRepository {
 class AuthRepository extends AAuthRepository {
   String loginUrl;
   String registerUrl;
+  String usersUrl;
+  Map<int,String> useridToName;
 
   AuthRepository() {
     final String url = GlobalConfiguration().getString('serviceUrl');
     final String loginPath = GlobalConfiguration().getString('loginPath');
     final String registerPath = GlobalConfiguration().getString('registerPath');
+    final String usersPath = GlobalConfiguration().getString('usersPath');
 
     if (url == null || loginPath == null || registerPath == null) {
       throw Exception('Unable to load mandatory configurations!');
@@ -40,6 +46,7 @@ class AuthRepository extends AAuthRepository {
 
     loginUrl = url + loginPath;
     registerUrl = url + registerPath;
+    usersUrl = url + usersPath;
 
     this.validator =
         AuthValidator((token) => saveToken(token), (id) => saveUserID(id));
@@ -121,7 +128,6 @@ class AuthRepository extends AAuthRepository {
   }
 
   Future<bool> deleteToken() async {
-    //TODO new state?
     final prefs = await SharedPreferences.getInstance();
     return await prefs.clear();
   }
@@ -154,5 +160,32 @@ class AuthRepository extends AAuthRepository {
   Future<bool> saveUserID(int id) async {
     final prefs = await SharedPreferences.getInstance();
     return await prefs.setInt('userid', id);
+  }
+
+  @override
+  Future<String> retrieveUserNameByID(int id)async {
+    if(useridToName == null){
+      useridToName = new Map<int,String>();
+      try
+      {
+        var response = await http.get(usersUrl);
+        if(response.statusCode == 200)
+        {
+          var result = UsersResult.fromJson(jsonDecode(response.body));
+
+          result.data.forEach((element) => useridToName[element.id] = element.username);
+        }
+      }catch(e){print(e);}
+      
+    }
+    if(useridToName.containsKey(id)){
+      return useridToName[id];
+    }
+    else
+    {
+      //TODO: logic for single user
+      return null;
+    }
+    
   }
 }

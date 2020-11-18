@@ -2,5 +2,6 @@
     "serviceUrl" : "http://192.168.0.199:3000",
     "getUserPath" : "/auth/users",
     "loginPath" : "/auth/login",
-    "registerPath" : "/auth/register"
+    "registerPath" : "/auth/register",
+    "usersPath" : "/auth/users"
 }

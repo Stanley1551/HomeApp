@@ -1,7 +1,9 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/TodoListConstants.dart';
 import 'package:homeapp/Repositories/Models/Contracts/TodoEntry.dart';
+import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -67,7 +69,11 @@ class TodoElement extends StatelessWidget {
                     ).format(_entry.doneAt)),
           ),
           expanded: Padding(padding: EdgeInsets.only(left: 17, bottom: 5, top: 0),
-          child: Text(this._entry.isDone ?'By '+ this._entry.doneByUserID.toString() :'By '+ this._entry.createdByUserID.toString(), style: TextStyle(color:Colors.grey,),),
+          child: FutureBuilder<String>(future: _getUserName(context),
+          builder:(ctx, snapshot){if(snapshot.hasData)
+          return Text(snapshot.data); else
+          return Container(height: 0,width: 0,);},
+          ),
         ),
       ),
       
@@ -75,5 +81,19 @@ class TodoElement extends StatelessWidget {
         height: 0,
         color: Colors.grey,
       ),]));
+  }
+
+  Future<String> _getUserName(BuildContext ctx) async
+  {
+    String result = "";
+    if(_entry.isDone){
+      result = await BlocProvider.of<AuthenticationBloc>(ctx).getUsernameByID(_entry.doneByUserID);
+    }
+    else
+    {
+      result = await BlocProvider.of<AuthenticationBloc>(ctx).getUsernameByID(_entry.createdByUserID);
+    }
+
+    return result;
   }
 }

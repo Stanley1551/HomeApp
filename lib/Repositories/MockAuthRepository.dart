@@ -67,4 +67,10 @@ class MockAuthRepository extends AAuthRepository {
     // TODO: implement saveUserID
     throw UnimplementedError();
   }
+
+  @override
+  Future<String> retrieveUserNameByID(int id) {
+    // TODO: implement retrieveUserNameByID
+    throw UnimplementedError();
+  }
 }
