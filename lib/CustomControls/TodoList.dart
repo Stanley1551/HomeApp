@@ -19,6 +19,7 @@ class TodoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: FirebaseAnimatedList(
+        defaultChild: CircularProgressIndicator(),
         reverse: false,
         sort: (a, b) => _sortRows(a, b),
         query: _databaseReference.endAt(true).orderByChild(TodoListConstants.isDone).limitToFirst(10),
