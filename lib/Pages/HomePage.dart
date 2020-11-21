@@ -24,7 +24,11 @@ class HomePage extends StatelessWidget {
                     Theme.of(context).copyWith(canvasColor: Colors.transparent),
                 child: CustomDrawer()),
             appBar: AppBar(
-              title: Text('Welcome Home'),
+              title: BlocBuilder<NavigationBloc, NavigationState>(
+                builder: (context, state) {
+                  return Text(state.title);
+                },
+              ),
             ),
             body: BlocBuilder<NavigationBloc, NavigationState>(
                 builder: (context, state) {
