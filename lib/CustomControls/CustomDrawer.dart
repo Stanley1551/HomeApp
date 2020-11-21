@@ -7,6 +7,8 @@ import 'package:homeapp/bloc/Navigation/navigation_bloc.dart';
 import 'CustomDialog.dart';
 
 class CustomDrawer extends StatelessWidget {
+  Color _backgroundColor = Color.fromARGB(205, 0, 0, 0);
+
   @override
   Widget build(context) {
     Future<String> _userName =
@@ -15,7 +17,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[900],
+          color: _backgroundColor,
           //border: BorderDirectional(end: BorderSide(color: Colors.blue))
         ),
         child: ListView(
@@ -50,10 +52,10 @@ class CustomDrawer extends StatelessWidget {
               ),
               curve: Curves.easeInOut,
               decoration: BoxDecoration(
-                  color: Colors.grey[900],
+                  //color: _backgroundColor,
                   border: BorderDirectional(
-                    bottom: BorderSide(color: Colors.grey),
-                  )),
+                bottom: BorderSide(color: Colors.blue),
+              )),
             ),
             ListTile(
                 title: Text('Dashboard'),
@@ -73,7 +75,7 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             Divider(
-              color: Colors.grey,
+              color: Colors.blueAccent,
             ),
             ListTile(
               onTap: () => _logoutClicked(context),

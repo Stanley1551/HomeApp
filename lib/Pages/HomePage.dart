@@ -19,7 +19,10 @@ class HomePage extends StatelessWidget {
           return NavigationBloc();
         },
         child: Scaffold(
-            drawer: CustomDrawer(),
+            drawer: Theme(
+                data:
+                    Theme.of(context).copyWith(canvasColor: Colors.transparent),
+                child: CustomDrawer()),
             appBar: AppBar(
               title: Text('Welcome Home'),
             ),
