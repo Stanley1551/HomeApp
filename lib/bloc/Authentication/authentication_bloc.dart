@@ -9,6 +9,11 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  int getUserIDSync() {
+    return _userID;
+  }
+
+  int _userID;
   final AAuthRepository repo;
   AuthenticationBloc(this.repo) : assert(repo != null);
 
@@ -21,7 +26,7 @@ class AuthenticationBloc
     return await repo.getAuthenticatedUserID();
   }
 
-  Future<String> getUsernameByID(int id) async{
+  Future<String> getUsernameByID(int id) async {
     return await repo.retrieveUserNameByID(id);
   }
 
@@ -39,6 +44,7 @@ class AuthenticationBloc
       yield AuthenticationInProgress();
 
       if (token != null) {
+        _userID = await repo.getAuthenticatedUserID();
         yield AuthenticationSucceeded();
       } else {
         yield AuthenticationFailed();
