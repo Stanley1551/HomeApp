@@ -32,7 +32,8 @@ class AuthRepository extends AAuthRepository {
   String loginUrl;
   String registerUrl;
   String usersUrl;
-  Map<int,String> useridToName;
+  Map<int, String> useridToName;
+  Future<Null> isFetching = null;
 
   AuthRepository() {
     final String url = GlobalConfiguration().getString('serviceUrl');
@@ -163,29 +164,36 @@ class AuthRepository extends AAuthRepository {
   }
 
   @override
-  Future<String> retrieveUserNameByID(int id)async {
-    if(useridToName == null){
-      useridToName = new Map<int,String>();
-      try
-      {
+  Future<String> retrieveUserNameByID(int id) async {
+    if (isFetching != null) {
+      await isFetching;
+      return retrieveUserNameByID(id);
+    }
+    if (useridToName == null) {
+      //lock
+      var completer = Completer<Null>();
+      isFetching = completer.future;
+      useridToName = Map<int, String>();
+      try {
         var response = await http.get(usersUrl);
-        if(response.statusCode == 200)
-        {
+        if (response.statusCode == 200) {
           var result = UsersResult.fromJson(jsonDecode(response.body));
 
-          result.data.forEach((element) => useridToName[element.id] = element.username);
+          result.data.forEach(
+              (element) => useridToName[element.id] = element.username);
         }
-      }catch(e){print(e);}
-      
+      } catch (e) {
+        print(e);
+      } finally {
+        completer.complete();
+        isFetching = null;
+      }
     }
-    if(useridToName.containsKey(id)){
+    if (useridToName.containsKey(id)) {
       return useridToName[id];
-    }
-    else
-    {
+    } else {
       //TODO: logic for single user
       return null;
     }
-    
   }
 }
