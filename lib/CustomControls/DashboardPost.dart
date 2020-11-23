@@ -10,9 +10,11 @@ class DashboardPost extends StatefulWidget {
   static const double elementTopPadding = 5;
   static const double nameSize = 17;
   static const double dateSize = 13;
+  Color iconColor;
   final String id;
   final Function(String, List<int>) likeCallback;
   DashboardEntry _entry;
+  bool isLiked = false;
 
   DashboardPost(this.id, dynamic firebaseEntry, this.likeCallback) {
     _entry = DashboardEntry();
@@ -41,28 +43,28 @@ class _DashboardPostState extends State<DashboardPost>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 450),
         vsync: this,
-        value: 0,
+        value: 1,
         lowerBound: 0,
         upperBound: 1);
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
-
-    _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.animateTo(1, duration: Duration(milliseconds: 300));
+    if (widget.iconColor == null) {
+      widget.iconColor = determineLike(context) ? Colors.blue : Colors.grey;
+    }
     return GestureDetector(
       onDoubleTap: () => onLikeButtonTapped(determineLike(context), context),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
+      child: Expanded(
+        //width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               FutureBuilder(
                 future: _getUserName(widget._entry.createdByUserID, context),
@@ -96,11 +98,10 @@ class _DashboardPostState extends State<DashboardPost>
                       GestureDetector(
                         onTap: () =>
                             onLikeButtonTapped(determineLike(context), context),
-                        child: Icon(
-                          Icons.arrow_upward,
-                          color: determineLike(context)
-                              ? Colors.blue
-                              : Colors.grey,
+                        child: ScaleTransition(
+                          scale: _animation,
+                          child:
+                              Icon(Icons.arrow_upward, color: widget.iconColor),
                         ),
                       ),
                       Text(widget._entry.likes.toString())
@@ -143,7 +144,7 @@ class _DashboardPostState extends State<DashboardPost>
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked, BuildContext context) async {
-    await _controller.animateBack(0, duration: Duration(milliseconds: 300));
+    await triggerOnTapAnimation(context);
     int userid = await _getUserID(context);
     bool result = false;
     if (isLiked) {
@@ -163,5 +164,20 @@ class _DashboardPostState extends State<DashboardPost>
 
   Future<int> _getUserID(BuildContext context) async {
     return await BlocProvider.of<AuthenticationBloc>(context).getUserID();
+  }
+
+  Future triggerOnTapAnimation(BuildContext context) async {
+    await _controller.animateBack(0, duration: Duration(milliseconds: 0));
+    setState(() {
+      if (widget.iconColor == Colors.grey) {
+        widget.iconColor = Colors.blue;
+      } else {
+        widget.iconColor = Colors.grey;
+      }
+    });
+    setState(() {
+      !determineLike(context) ? widget._entry.likes++ : widget._entry.likes--;
+    });
+    await _controller.animateTo(1, duration: Duration(milliseconds: 200));
   }
 }
