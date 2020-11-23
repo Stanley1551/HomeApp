@@ -4,7 +4,7 @@ import 'package:homeapp/Constants/DashboardConstants.dart';
 import 'package:homeapp/Repositories/Models/Contracts/DashboardEntry.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:like_button/like_button.dart';
+//import 'package:like_button/like_button.dart';
 
 class DashboardPost extends StatefulWidget {
   static const double elementTopPadding = 5;
@@ -55,65 +55,78 @@ class _DashboardPostState extends State<DashboardPost>
   @override
   Widget build(BuildContext context) {
     _controller.animateTo(1, duration: Duration(milliseconds: 300));
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FutureBuilder(
-              future: _getUserName(widget._entry.createdByUserID, context),
-              builder: (context, snapshot) {
-                if (snapshot.data != null && !snapshot.hasError) {
-                  return Text(
-                    snapshot.data,
-                    style: TextStyle(
-                        fontSize: DashboardPost.nameSize,
-                        fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onDoubleTap: () => onLikeButtonTapped(determineLike(context), context),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder(
+                future: _getUserName(widget._entry.createdByUserID, context),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null && !snapshot.hasError) {
+                    return Text(
+                      snapshot.data,
+                      style: TextStyle(
+                          fontSize: DashboardPost.nameSize,
+                          fontWeight: FontWeight.bold),
+                    );
+                  }
+                  return Container(
+                    width: 0,
+                    height: 0,
                   );
-                }
-                return Container(
-                  width: 0,
-                  height: 0,
-                );
-              },
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: DashboardPost.elementTopPadding),
-              child: Text(
-                DateFormat(
-                  'EEEE d MMM h:mm',
-                ).format(widget._entry.createdAt).toString(),
-                style: TextStyle(
-                    fontSize: DashboardPost.dateSize, color: Colors.grey),
+                },
               ),
-            ),
-            Padding(
-                padding:
-                    const EdgeInsets.only(top: DashboardPost.elementTopPadding),
-                child: Text(widget._entry.postText)),
-            LikeButton(
-              size: 30,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              isLiked: determineLike(context),
-              likeCount: widget._entry.likes,
-              //likeCountAnimationDuration: Duration(milliseconds: 300),
-              countBuilder: (likeCount, isLiked, text) {
-                return FadeTransition(
-                    opacity: _animation, child: Text(likeCount.toString()));
-              },
-              likeBuilder: (isLiked) {
-                return Icon(Icons.arrow_upward,
-                    size: _iconSize,
-                    color: isLiked ? Colors.blue : Colors.grey);
-              },
-              padding: EdgeInsets.only(top: 10),
-              onTap: (isLiked) => onLikeButtonTapped(isLiked, context),
-            )
-          ],
+              Padding(
+                  padding: const EdgeInsets.only(
+                      top: DashboardPost.elementTopPadding),
+                  child: Text(widget._entry.postText)),
+              Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: Row(children: [
+                  Flex(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    direction: Axis.horizontal,
+                    children: [
+                      GestureDetector(
+                        onTap: () =>
+                            onLikeButtonTapped(determineLike(context), context),
+                        child: Icon(
+                          Icons.arrow_upward,
+                          color: determineLike(context)
+                              ? Colors.blue
+                              : Colors.grey,
+                        ),
+                      ),
+                      Text(widget._entry.likes.toString())
+                    ],
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: DashboardPost.elementTopPadding),
+                        child: Text(
+                          DateFormat(
+                            'EEEE d MMM h:mm',
+                          ).format(widget._entry.createdAt).toString(),
+                          style: TextStyle(
+                              fontSize: DashboardPost.dateSize,
+                              color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              )
+            ],
+          ),
         ),
       ),
     );
