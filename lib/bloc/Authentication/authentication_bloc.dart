@@ -44,16 +44,21 @@ class AuthenticationBloc
       yield AuthenticationInProgress();
 
       if (token != null) {
-        _userID = await repo.getAuthenticatedUserID();
+        await saveUserID();
         yield AuthenticationSucceeded();
       } else {
         yield AuthenticationFailed();
       }
     } else if (event is AuthenticationLoggedIn) {
+      await saveUserID();
       yield AuthenticationSucceeded();
     } else if (event is AuthenticationLoggedOut) {
       await repo.deleteToken();
       yield AuthenticationExited();
     }
+  }
+
+  Future saveUserID() async {
+    _userID = await repo.getAuthenticatedUserID();
   }
 }

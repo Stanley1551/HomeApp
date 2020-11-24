@@ -17,6 +17,7 @@ class DashboardPost extends StatefulWidget {
   bool isLiked = false;
 
   DashboardPost(this.id, dynamic firebaseEntry, this.likeCallback) {
+    iconColor = null;
     _entry = DashboardEntry();
     _entry.createdAt =
         DateTime.parse(firebaseEntry[DashboardConstants.createdAt]);
@@ -58,76 +59,84 @@ class _DashboardPostState extends State<DashboardPost>
       widget.iconColor = determineLike(context) ? Colors.blue : Colors.grey;
     }
     return GestureDetector(
-      onDoubleTap: () => onLikeButtonTapped(determineLike(context), context),
-      child: Expanded(
-        //width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              FutureBuilder(
-                future: _getUserName(widget._entry.createdByUserID, context),
-                builder: (context, snapshot) {
-                  if (snapshot.data != null && !snapshot.hasError) {
-                    return Text(
-                      snapshot.data,
-                      style: TextStyle(
-                          fontSize: DashboardPost.nameSize,
-                          fontWeight: FontWeight.bold),
-                    );
-                  }
-                  return Container(
-                    width: 0,
-                    height: 0,
+      onDoubleTap: () =>
+          onLikeButtonTapped(determineLike(context), true, context),
+      //width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FutureBuilder(
+              future: _getUserName(widget._entry.createdByUserID, context),
+              builder: (context, snapshot) {
+                if (snapshot.data != null && !snapshot.hasError) {
+                  return Text(
+                    snapshot.data,
+                    style: TextStyle(
+                        fontSize: DashboardPost.nameSize,
+                        fontWeight: FontWeight.bold),
                   );
-                },
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(
-                      top: DashboardPost.elementTopPadding),
-                  child: Text(widget._entry.postText)),
-              Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: Row(children: [
-                  Flex(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    direction: Axis.horizontal,
-                    children: [
-                      GestureDetector(
-                        onTap: () =>
-                            onLikeButtonTapped(determineLike(context), context),
-                        child: ScaleTransition(
-                          scale: _animation,
-                          child:
-                              Icon(Icons.arrow_upward, color: widget.iconColor),
-                        ),
+                }
+                return Container(
+                  width: 0,
+                  height: 0,
+                );
+              },
+            ),
+            Padding(
+                padding:
+                    const EdgeInsets.only(top: DashboardPost.elementTopPadding),
+                child: Text(widget._entry.postText)),
+            Padding(
+              padding: EdgeInsets.only(top: 5),
+              child: Row(children: [
+                Flex(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  direction: Axis.horizontal,
+                  children: [
+                    Listener(
+                      onPointerDown: (event) async {
+                        await shrinkIcon();
+                      },
+                      onPointerUp: (event) async {
+                        switchIconColor();
+                        updatelikeCounter();
+                        await growIcon();
+                        await onLikeButtonTapped(
+                            determineLike(context), false, context);
+                      },
+                      //onLikeButtonTapped(determineLike(context), context),
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child:
+                            Icon(Icons.arrow_upward, color: widget.iconColor),
                       ),
-                      Text(widget._entry.likes.toString())
-                    ],
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: DashboardPost.elementTopPadding),
-                        child: Text(
-                          DateFormat(
-                            'EEEE d MMM h:mm',
-                          ).format(widget._entry.createdAt).toString(),
-                          style: TextStyle(
-                              fontSize: DashboardPost.dateSize,
-                              color: Colors.grey),
-                        ),
+                    ),
+                    Text(widget._entry.likes.toString())
+                  ],
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: DashboardPost.elementTopPadding),
+                      child: Text(
+                        DateFormat(
+                          'EEEE d MMM h:mm',
+                        ).format(widget._entry.createdAt).toString(),
+                        style: TextStyle(
+                            fontSize: DashboardPost.dateSize,
+                            color: Colors.grey),
                       ),
                     ),
                   ),
-                ]),
-              )
-            ],
-          ),
+                ),
+              ]),
+            )
+          ],
         ),
       ),
     );
@@ -143,8 +152,11 @@ class _DashboardPostState extends State<DashboardPost>
         .getUsernameByID(widget._entry.createdByUserID);
   }
 
-  Future<bool> onLikeButtonTapped(bool isLiked, BuildContext context) async {
-    await triggerOnTapAnimation(context);
+  Future<bool> onLikeButtonTapped(
+      bool isLiked, bool animationNeeded, BuildContext context) async {
+    if (animationNeeded) {
+      await triggerOnTapAnimation(context);
+    }
     int userid = await _getUserID(context);
     bool result = false;
     if (isLiked) {
@@ -167,7 +179,13 @@ class _DashboardPostState extends State<DashboardPost>
   }
 
   Future triggerOnTapAnimation(BuildContext context) async {
-    await _controller.animateBack(0, duration: Duration(milliseconds: 0));
+    await shrinkIcon();
+    switchIconColor();
+    updatelikeCounter();
+    await growIcon();
+  }
+
+  switchIconColor() {
     setState(() {
       if (widget.iconColor == Colors.grey) {
         widget.iconColor = Colors.blue;
@@ -175,9 +193,19 @@ class _DashboardPostState extends State<DashboardPost>
         widget.iconColor = Colors.grey;
       }
     });
+  }
+
+  updatelikeCounter() {
     setState(() {
       !determineLike(context) ? widget._entry.likes++ : widget._entry.likes--;
     });
+  }
+
+  shrinkIcon() async {
+    await _controller.animateBack(0, duration: Duration(milliseconds: 25));
+  }
+
+  growIcon() async {
     await _controller.animateTo(1, duration: Duration(milliseconds: 200));
   }
 }
