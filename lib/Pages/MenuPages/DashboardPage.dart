@@ -16,6 +16,7 @@ class DashBoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FirebaseAnimatedList(
+        sort: (DataSnapshot a,DataSnapshot b){return DateTime.parse(a.value[DashboardConstants.createdAt]).difference(DateTime.parse(b.value[DashboardConstants.createdAt])).inSeconds; },
         query: _databaseReference,
         defaultChild: Center(child: CircularProgressIndicator()),
         itemBuilder: (BuildContext context, DataSnapshot snapshot,
@@ -50,7 +51,10 @@ class DashBoardPage extends StatelessWidget {
   }
 
   Future submitPost(String msg, BuildContext context) async {
-    var newChild = _databaseReference.push();
+    if(msg != null && msg.length > 0 && msg.trim().length > 0)
+    {
+      msg = msg.trim();
+      var newChild = _databaseReference.push();
     Map<String, dynamic> values = Map<String, dynamic>();
     values[DashboardConstants.createdAt] = DateTime.now().toString();
     values[DashboardConstants.createdBy] =
@@ -59,6 +63,8 @@ class DashBoardPage extends StatelessWidget {
     values[DashboardConstants.post] = msg;
 
     await newChild.set(values);
+    }
+    
   }
 
   void addPressed(BuildContext context) {
