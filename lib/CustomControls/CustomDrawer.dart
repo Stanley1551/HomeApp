@@ -69,9 +69,9 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Devices'),
+              title: Text('Events'),
               onTap: () {
-                _navigationClicked(context, NavigationDevices());
+                _navigationClicked(context, NavigationEvents());
               },
             ),
             Divider(

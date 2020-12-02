@@ -17,7 +17,7 @@ class DashBoardPage extends StatelessWidget {
     return Scaffold(
       body: FirebaseAnimatedList(
         sort: (DataSnapshot a,DataSnapshot b){return DateTime.parse(a.value[DashboardConstants.createdAt]).difference(DateTime.parse(b.value[DashboardConstants.createdAt])).inSeconds; },
-        query: _databaseReference,
+        query: _databaseReference,//TODO add limit!
         defaultChild: Center(child: CircularProgressIndicator()),
         itemBuilder: (BuildContext context, DataSnapshot snapshot,
                 Animation<double> animation, index) =>

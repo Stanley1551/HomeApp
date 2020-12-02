@@ -9,6 +9,6 @@ abstract class NavigationEvent extends Equatable {
 
 class NavigationDashboard extends NavigationEvent {}
 
-class NavigationDevices extends NavigationEvent {}
+class NavigationEvents extends NavigationEvent {}
 
 class NavigationTodoList extends NavigationEvent {}

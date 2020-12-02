@@ -11,8 +11,8 @@ class NavigationInitial extends NavigationState {
   NavigationInitial() : super('Welcome Home');
 }
 
-class NavigationToDevices extends NavigationState {
-  NavigationToDevices() : super('Devices');
+class NavigationToEvents extends NavigationState {
+  NavigationToEvents() : super('Events');
 }
 
 class NavigationToTodoList extends NavigationState {
