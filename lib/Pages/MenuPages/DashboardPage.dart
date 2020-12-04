@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/DashboardConstants.dart';
 import 'package:homeapp/CustomControls/CustomTextEntryDialog.dart';
 import 'package:homeapp/CustomControls/DashboardPost.dart';
-import 'package:homeapp/Repositories/Models/Contracts/DashboardEntry.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 
 class DashBoardPage extends StatelessWidget {
