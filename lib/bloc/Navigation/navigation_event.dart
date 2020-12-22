@@ -11,4 +11,6 @@ class NavigationDashboard extends NavigationEvent {}
 
 class NavigationEvents extends NavigationEvent {}
 
+class NavigationShoppingList extends NavigationEvent {}
+
 class NavigationTodoList extends NavigationEvent {}

@@ -20,6 +20,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       yield NavigationToTodoList();
     } else if (event is NavigationEvents) {
       yield NavigationToEvents();
+    } else if (event is NavigationShoppingList) {
+      yield NavigationToShoppingList();
     }
   }
 

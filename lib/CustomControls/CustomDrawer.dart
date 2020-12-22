@@ -77,6 +77,12 @@ class CustomDrawer extends StatelessWidget {
                   _navigationClicked(context, NavigationEvents());
                 },
               ),
+              ListTile(
+                title: Text('Shopping list'),
+                onTap: () {
+                  _navigationClicked(context, NavigationShoppingList());
+                },
+              ),
               Divider(
                 color: Colors.blueAccent,
               ),

@@ -18,3 +18,7 @@ class NavigationToEvents extends NavigationState {
 class NavigationToTodoList extends NavigationState {
   NavigationToTodoList() : super('To-do List');
 }
+
+class NavigationToShoppingList extends NavigationState {
+  NavigationToShoppingList() : super('Shopping List');
+}
