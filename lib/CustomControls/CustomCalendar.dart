@@ -28,7 +28,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CalendarBloc, CalendarState>(builder: (ctx, state) {
-      if(state is CalendarLoaded) {
+      if(state is CalendarLoaded || state is CalendarDaySelected) {
       return TableCalendar(
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarController: _calendarController,
@@ -42,6 +42,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
       ),
       events: state.events,
       headerStyle: HeaderStyle(),
+      onDaySelected: (day, events, holidays) {
+        BlocProvider.of<CalendarBloc>(context).add(CalendarDayTapped(day));
+      },
     );
       } else {
         return Center(child: LinearProgressIndicator());

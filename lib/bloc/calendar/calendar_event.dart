@@ -8,3 +8,8 @@ abstract class CalendarEvent extends Equatable {
 }
 
 class CalendarOpened extends CalendarEvent{}
+
+class CalendarDayTapped extends CalendarEvent {
+  final DateTime daySelected;
+  CalendarDayTapped(this.daySelected);
+}

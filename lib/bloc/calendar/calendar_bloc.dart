@@ -20,6 +20,13 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       yield CalendarInitial();
       await _loadEntries();
       yield CalendarLoaded(events);
+    } else if(event is CalendarDayTapped){
+      List<CalendarEntry> filteredEvents = new List<CalendarEntry>();
+      events.forEach((key, value) {if(key.day == event.daySelected.day && 
+      key.month == event.daySelected.month && key.year == event.daySelected.year){
+        filteredEvents =  value;
+      }});
+      yield CalendarDaySelected(events, filteredEvents);
     }
   }
 
