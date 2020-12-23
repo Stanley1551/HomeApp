@@ -169,7 +169,7 @@ class AuthRepository extends AAuthRepository {
       await isFetching;
       return retrieveUserNameByID(id);
     }
-    if (useridToName == null) {
+    if (useridToName == null || useridToName.isEmpty) {
       //lock
       var completer = Completer<Null>();
       isFetching = completer.future;
