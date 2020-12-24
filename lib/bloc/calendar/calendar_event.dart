@@ -1,10 +1,7 @@
 part of 'calendar_bloc.dart';
 
-abstract class CalendarEvent extends Equatable {
+abstract class CalendarEvent {
   const CalendarEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class CalendarOpened extends CalendarEvent{}

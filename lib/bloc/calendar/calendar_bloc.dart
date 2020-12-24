@@ -21,8 +21,9 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       await _loadEntries();
       yield CalendarLoaded(events);
     } else if(event is CalendarDayTapped){
+      Map<DateTime, List<CalendarEntry>> events = this.events;
       List<CalendarEntry> filteredEvents = new List<CalendarEntry>();
-      events.forEach((key, value) {if(key.day == event.daySelected.day && 
+      this.events.forEach((key, value) {if(key.day == event.daySelected.day && 
       key.month == event.daySelected.month && key.year == event.daySelected.year){
         filteredEvents =  value;
       }});

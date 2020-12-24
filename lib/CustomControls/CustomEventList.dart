@@ -9,7 +9,8 @@ class CustomEventList extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarBloc, CalendarState>(builder: (ctx, state) {
+    return BlocBuilder<CalendarBloc, CalendarState>( condition: (previous, current) => true,
+      builder: (ctx, state) {
       if(state is CalendarLoaded || state is CalendarDaySelected) {
         return ScrollConfiguration(
       behavior: GlowlessBehavior(),

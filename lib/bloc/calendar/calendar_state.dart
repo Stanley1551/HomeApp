@@ -1,11 +1,8 @@
 part of 'calendar_bloc.dart';
 
-abstract class CalendarState extends Equatable {
+abstract class CalendarState {
   final Map<DateTime, List<CalendarEntry>> events;
   const CalendarState(this.events);
-  
-  @override
-  List<Object> get props => [];
 }
 
 class CalendarInitial extends CalendarState {
