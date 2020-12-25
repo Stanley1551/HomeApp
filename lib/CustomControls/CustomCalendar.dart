@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homeapp/CustomControls/CustomEventAddDialog.dart';
 import 'package:homeapp/Repositories/Models/Contracts/CalendarEntry.dart';
 import 'package:homeapp/bloc/calendar/calendar_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -45,12 +46,20 @@ class _CustomCalendarState extends State<CustomCalendar> {
       onDaySelected: (day, events, holidays) {
         BlocProvider.of<CalendarBloc>(context).add(CalendarDayTapped(day));
       },
+      onDayLongPressed: (day, events, holidays) {
+        showDialog(context: context,builder: (context) {
+          return CustomEventAddDialog(day, (title, dateTime) => _addEvent(ctx, title, dateTime));
+        },);
+      },
     );
       } else {
         return Center(child: LinearProgressIndicator());
       }
       }
     );
-    
+  }
+
+  void _addEvent(BuildContext context, String title, DateTime eventTime){
+    BlocProvider.of<CalendarBloc>(context).add(CalendarEventAdded(title, eventTime));
   }
 }
