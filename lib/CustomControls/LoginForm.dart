@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/CustomControls/CustomCircularProgressDialog.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Login/login_bloc.dart';
 
 import 'CustomTextField.dart';
@@ -52,13 +53,13 @@ class _LoginFormState extends State<LoginForm> {
                     children: <Widget>[
                       CustomLoginTextField(
                         true,
-                        placeholder: 'Username',
+                        placeholder: AppLocalization.of(context).username,
                         width: 270,
                         controller: usernameFieldController,
                       ),
                       CustomLoginTextField(
                         true,
-                        placeholder: 'Password',
+                        placeholder: AppLocalization.of(context).password,
                         width: 270,
                         isPasswordField: true,
                         controller: passwordFieldController,
@@ -88,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
                         },
                         splashColor: Colors.blueAccent,
                         color: Colors.blue,
-                        child: Text('Login'),
+                        child: Text(AppLocalization.of(context).login),
                         minWidth: 240,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -98,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                     : MaterialButton(
                         onPressed: () => BlocProvider.of<LoginBloc>(context)
                             .add(RegisterButtonPressed()),
-                        child: Text('Register'),
+                        child: Text(AppLocalization.of(context).register),
                         minWidth: 240,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),

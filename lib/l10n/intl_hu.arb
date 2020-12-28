@@ -1,0 +1,144 @@
+{
+    "@@locale": "hu",
+  "@@last_modified": "2020-12-28T17:45:01.352979",
+  "heyWorld": "heyWorld",
+  "@heyWorld": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shoppingList": "Bevásárlólista",
+  "@shoppingList": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dashboard": "Üzenőfal",
+  "@dashboard": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "events": "Események",
+  "@events": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "todoList": "Teendők",
+  "@todoList": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Kijelentkezés",
+  "@logout": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutConf": "Biztos ki akarsz jelentkezni?",
+  "@logoutConf": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "Nem",
+  "@no": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeHome": "Üdv itthon",
+  "@welcomeHome": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nameTheTask": "A teendő neve",
+  "@nameTheTask": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "submit": "Mentés",
+  "@submit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "created": "Létrehozva: ",
+  "@created": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "month": "Hónap",
+  "@month": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "twoweeks": "2 hét",
+  "@twoweeks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "newEvent": "Új esemény",
+  "@newEvent": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventTitle": "Esemény neve",
+  "@eventTitle": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "save": "Mentés",
+  "@save": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addAMessage": "Üzenet hozzáadása",
+  "@addAMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "signIn": "Bejelentkezés",
+  "@signIn": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "username": "Felhasználónév",
+  "@username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Jelszó",
+  "@password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "Bejelentkezés",
+  "@login": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "register": "Regisztráció",
+  "@register": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordAgain": "Jelsző ismét",
+  "@passwordAgain": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidUsername": "Helytelen felhasználónév",
+  "@invalidUsername": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidPassword": "Helytelen jelszó",
+  "@invalidPassword": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverNotResponding": "Sajnos a szerver most nem válaszol...",
+  "@serverNotResponding": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordMustMatch": "A jelszó mezőknek meg kell egyezniük!",
+  "@passwordMustMatch": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

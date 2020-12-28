@@ -1,5 +1,6 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 
 class CustomEventAddDialog extends StatelessWidget {
   DateTime initialDay;
@@ -24,13 +25,13 @@ class CustomEventAddDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'New event',
+                  AppLocalization.of(context).newEvent,
                   style: TextStyle(fontSize: 20),
                 ),
                 TextField(
                   controller: _titleController,
                   decoration: InputDecoration(
-                      hintText: 'Event title',
+                      hintText: AppLocalization.of(context).eventTitle,
                       hintStyle:
                           TextStyle(fontStyle: FontStyle.italic, fontSize: 13)),
                 ),
@@ -44,7 +45,7 @@ class CustomEventAddDialog extends StatelessWidget {
                   child: RaisedButton(
                     onPressed: () => _savePressed(
                         context, _titleController, _timeController),
-                    child: Text('Save'),
+                    child: Text(AppLocalization.of(context).save),
                   ),
                 )
               ],

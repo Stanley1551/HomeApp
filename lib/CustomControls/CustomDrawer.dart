@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Behaviors/GlowlessBehavior.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:homeapp/bloc/Navigation/navigation_bloc.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 
 import 'CustomDialog.dart';
 
@@ -61,24 +62,24 @@ class CustomDrawer extends StatelessWidget {
                 )),
               ),
               ListTile(
-                  title: Text('Dashboard'),
+                  title: Text(AppLocalization.of(context).dashboard),
                   onTap: () {
                     _navigationClicked(context, NavigationDashboard());
                   }),
               ListTile(
-                title: Text('Todo list'),
+                title: Text(AppLocalization.of(context).todoList),
                 onTap: () {
                   _navigationClicked(context, NavigationTodoList());
                 },
               ),
               ListTile(
-                title: Text('Events'),
+                title: Text(AppLocalization.of(context).events),
                 onTap: () {
                   _navigationClicked(context, NavigationEvents());
                 },
               ),
               ListTile(
-                title: Text('Shopping list'),
+                title: Text(AppLocalization.of(context).shoppingList),
                 onTap: () {
                   _navigationClicked(context, NavigationShoppingList());
                 },
@@ -93,7 +94,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.redAccent,
                 ),
                 title: Text(
-                  'Logout',
+                  AppLocalization.of(context).logout,
                   style: TextStyle(color: Colors.redAccent),
                 ),
               )
@@ -113,9 +114,9 @@ class CustomDrawer extends StatelessWidget {
     var retval = await showDialog(
         context: context,
         builder: (context) => CustomDialog(
-            'Are you sure about logging out?', Icons.warning,
+            AppLocalization.of(context).logoutConf, Icons.warning,
             isYesNoQuestion: true));
-    if (retval) {
+    if (retval != null && retval) {
       BlocProvider.of<AuthenticationBloc>(context)
           .add(AuthenticationLoggedOut());
     }

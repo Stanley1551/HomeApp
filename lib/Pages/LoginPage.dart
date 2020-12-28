@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:homeapp/bloc/Login/login_bloc.dart';
 import '../CustomControls/LoginForm.dart';
@@ -28,7 +29,7 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  'Sign in',
+                  AppLocalization.of(context).signIn,
                   style: TextStyle(
                       color: Colors.blue,
                       fontStyle: FontStyle.normal,

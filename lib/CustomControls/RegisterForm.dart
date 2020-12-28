@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Register/register_bloc.dart';
 
 import 'CustomTextField.dart';
@@ -54,20 +55,20 @@ class _RegisterFormState extends State<RegisterForm> {
                     children: <Widget>[
                       CustomLoginTextField(
                         false,
-                        placeholder: 'Username',
+                        placeholder: AppLocalization.of(context).username,
                         width: 270,
                         controller: usernameFieldController,
                       ),
                       CustomLoginTextField(
                         false,
-                        placeholder: 'Password',
+                        placeholder: AppLocalization.of(context).password,
                         width: 270,
                         isPasswordField: true,
                         controller: passwordFieldController,
                       ),
                       CustomLoginTextField(
                         false,
-                        placeholder: 'Password again',
+                        placeholder: AppLocalization.of(context).passwordAgain,
                         width: 270,
                         isPasswordField: true,
                         controller: passwordFieldAgainController,
@@ -84,7 +85,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ? CircularProgressIndicator()
                     : MaterialButton(
                         onPressed: () => _handleRegisterButtonPushed(state),
-                        child: Text('Register'),
+                        child: Text(AppLocalization.of(context).register),
                         minWidth: 240,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),

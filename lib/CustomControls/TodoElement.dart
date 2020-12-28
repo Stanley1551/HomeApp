@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/TodoListConstants.dart';
 import 'package:homeapp/Repositories/Models/Contracts/TodoEntry.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -59,7 +60,7 @@ class TodoElement extends StatelessWidget {
                   )
                 : Icon(Icons.done),
             subtitle: !this._entry.isDone
-                ? Text('Created: ' +
+                ? Text(AppLocalization.of(context).created +
                     DateFormat(
                       'EEEE d MMM h:mm',
                     ).format(_entry.createdAt))

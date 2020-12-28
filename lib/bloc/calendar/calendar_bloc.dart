@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Repositories/Models/Contracts/CalendarEntry.dart';
-import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 
 part 'calendar_event.dart';
 part 'calendar_state.dart';
@@ -22,11 +21,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       await _loadEntries();
       yield CalendarLoaded(events);
     } else if(event is CalendarDayTapped){
-      List<CalendarEntry> filteredEvents = new List<CalendarEntry>();
-      this.events.forEach((key, value) {if(key.day == event.daySelected.day && 
-      key.month == event.daySelected.month && key.year == event.daySelected.year){
-        filteredEvents =  value;
-      }});
+      var filteredEvents = _getFilteredEvents(event.daySelected);
       yield CalendarDaySelected(events, filteredEvents);
     }
     else if(event is CalendarEventAdded){
@@ -34,12 +29,22 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       await FirebaseFirestore.instance.collection('events').add(data);
       //client side lie, or this...
       await _loadEntries();
-      yield CalendarLoaded(events);
+      var filteredEvents = _getFilteredEvents(event.eventTime);
+      yield CalendarDaySelected(events, filteredEvents);
     }
   }
 
   @override
   CalendarState get initialState => CalendarInitial();
+
+   List<CalendarEntry> _getFilteredEvents(DateTime dateTime){
+     List<CalendarEntry> filteredEvents = new List<CalendarEntry>();
+      this.events.forEach((key, value) {if(key.day == dateTime.day && 
+      key.month == dateTime.month && key.year == dateTime.year){
+        filteredEvents.addAll(value);
+      }});
+      return filteredEvents;
+  }
 
   _loadEntries() async {
     events.clear();

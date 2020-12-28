@@ -5,6 +5,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
 import 'package:homeapp/CustomControls/CustomTextEntryDialog.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'dart:async';
 import '../Constants/TodoListConstants.dart';
 
@@ -33,7 +34,7 @@ class TodoList extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => CustomTextEntryDialog(
-        'Name the task',
+        AppLocalization.of(context).nameTheTask,
         Icons.list,
         submitCallback: (value) => _insertListItem(value, context),
       ),

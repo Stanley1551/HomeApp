@@ -1,0 +1,143 @@
+{
+    "@@locale": "en",
+  "@@last_modified": "2020-12-28T17:45:01.352979",
+  "heyWorld": "heyWorld",
+  "@heyWorld": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shoppingList": "Shopping List",
+  "@shoppingList": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "events": "Events",
+  "@events": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "todoList": "Todo-list",
+  "@todoList": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Logout",
+  "@logout": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutConf": "Are you sure about logging out?",
+  "@logoutConf": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "No",
+  "@no": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeHome": "Welcome Home",
+  "@welcomeHome": {
+    "type": "text",
+    "placeholders": {}
+    },
+  "nameTheTask": "Name the task",
+  "@nameTheTask": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "submit": "Submit",
+  "@submit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "created": "Created: ",
+  "@created": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "month": "Month",
+  "@month": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "twoweeks": "2 weeks",
+  "@twoweeks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "newEvent": "New event",
+  "@newEvent": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventTitle": "Event title",
+  "@eventTitle": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "save": "Save",
+  "@save": {
+    "type": "text",
+    "placeholders": {}},
+  "addAMessage": "Add a message",
+  "@addAMessage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "signIn": "Sign in",
+  "@signIn": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "username": "Username",
+  "@username": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Password",
+  "@password": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "Login",
+  "@login": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "register": "Register",
+  "@register": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordAgain": "Password again",
+  "@passwordAgain": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidUsername": "Invalid username",
+  "@invalidUsername": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidPassword": "Invalid password",
+  "@invalidPassword": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverNotResponding": "Unfortunately, the server is not responding...",
+  "@serverNotResponding": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordMustMatch": "Password fields must match!",
+  "@passwordMustMatch": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

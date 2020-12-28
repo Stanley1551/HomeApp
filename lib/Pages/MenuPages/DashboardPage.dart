@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/DashboardConstants.dart';
 import 'package:homeapp/CustomControls/CustomTextEntryDialog.dart';
 import 'package:homeapp/CustomControls/DashboardPost.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 
 class DashBoardPage extends StatelessWidget {
@@ -69,7 +70,7 @@ class DashBoardPage extends StatelessWidget {
   void addPressed(BuildContext context) {
     showDialog(
         context: context,
-        child: CustomTextEntryDialog("Add a message:", Icons.edit,
+        child: CustomTextEntryDialog('Add a message', Icons.edit,
             submitCallback: (msg) => submitPost(msg, context)));
   }
 }

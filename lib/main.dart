@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/LoginPage.dart';
 import 'Pages/RegisterPage.dart';
@@ -32,11 +34,21 @@ Future loadConfiguration() async {
 
 class MyApp extends StatelessWidget {
   final AAuthRepository repo;
+  AppLocalizationDelegate _localeOverrideDelegate = AppLocalizationDelegate(Locale('hu', 'HU'));
   MyApp(this.repo);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('hu', 'HU')
+      ],
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
         if (state is AuthenticationSucceeded) {

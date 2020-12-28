@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 
 class CustomTextEntryDialog extends StatelessWidget {
   final String message;
@@ -51,7 +52,7 @@ class CustomTextEntryDialog extends StatelessWidget {
     List<RaisedButton> buttons = new List<RaisedButton>();
 
     buttons.add(RaisedButton(
-      child: Text('Submit'),
+      child: Text(AppLocalization.of(context).submit),
       onPressed: () {
         if (submitCallback != null) {
           submitCallback(teController.text);

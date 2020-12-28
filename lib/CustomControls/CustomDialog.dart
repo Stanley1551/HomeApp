@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 
 class CustomDialog extends StatelessWidget {
   final String message;
@@ -55,7 +56,7 @@ class CustomDialog extends StatelessWidget {
 
     if (isYesNoQuestion) {
       buttons.add(RaisedButton(
-        child: Text('No'),
+        child: Text(AppLocalization.of(context).no),
         onPressed: () => Navigator.of(context).pop(false),
       ));
     }

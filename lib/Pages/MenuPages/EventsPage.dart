@@ -11,8 +11,8 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CalendarBloc>(create: (BuildContext context) => CalendarBloc()..add(CalendarOpened()),
-    child: Column(children: [_calendar,Expanded(child: _eventList)],)
-    );
+      child: Column(children: [_calendar,Expanded(child: _eventList)],)
+      );
   }
 }
 
