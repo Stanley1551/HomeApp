@@ -38,7 +38,7 @@ class _DashboardPostState extends State<DashboardPost>
     with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _controller;
-  static const double _iconSize = 25;
+  static const double _iconSize = 30;
 
   @override
   void initState() {
@@ -58,85 +58,93 @@ class _DashboardPostState extends State<DashboardPost>
     if (widget.iconColor == null) {
       widget.iconColor = determineLike(context) ? Colors.blue : Colors.grey;
     }
-    return GestureDetector(
-      onDoubleTap: () =>
-          onLikeButtonTapped(determineLike(context), true, context),
-      //width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            FutureBuilder(
-              future: _getUserName(widget._entry.createdByUserID, context),
-              builder: (context, snapshot) {
-                if (snapshot.data != null && !snapshot.hasError) {
-                  return Text(
-                    snapshot.data,
-                    style: TextStyle(
-                        fontSize: DashboardPost.nameSize,
-                        fontWeight: FontWeight.bold),
+    return Card(
+      color: Colors.grey[900],
+      clipBehavior: Clip.antiAlias,
+      borderOnForeground: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+      shadowColor: Colors.blue,
+          child: GestureDetector(
+        onDoubleTap: () =>
+            onLikeButtonTapped(determineLike(context), true, context),
+        //width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FutureBuilder(
+                future: _getUserName(widget._entry.createdByUserID, context),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null && !snapshot.hasError) {
+                    return Text(
+                      snapshot.data,
+                      style: TextStyle(
+                        color: Colors.white,
+                          fontSize: DashboardPost.nameSize,
+                          fontWeight: FontWeight.bold),
+                    );
+                  }
+                  return Container(
+                    width: 0,
+                    height: 0,
                   );
-                }
-                return Container(
-                  width: 0,
-                  height: 0,
-                );
-              },
-            ),
-            Padding(
-                padding:
-                    const EdgeInsets.only(top: DashboardPost.elementTopPadding),
-                child: Text(widget._entry.postText)),
-            Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: Row(children: [
-                Flex(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  direction: Axis.horizontal,
-                  children: [
-                    Listener(
-                      onPointerDown: (event) async {
-                        await shrinkIcon();
-                      },
-                      onPointerUp: (event) async {
-                        switchIconColor();
-                        updatelikeCounter();
-                        await growIcon();
-                        await onLikeButtonTapped(
-                            determineLike(context), false, context);
-                      },
-                      //onLikeButtonTapped(determineLike(context), context),
-                      child: ScaleTransition(
-                        scale: _animation,
-                        child:
-                            Icon(Icons.arrow_upward, color: widget.iconColor),
+                },
+              ),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(top: DashboardPost.elementTopPadding),
+                  child: Text(widget._entry.postText)),
+              Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: Row(children: [
+                  Flex(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    direction: Axis.horizontal,
+                    children: [
+                      Listener(
+                        onPointerDown: (event) async {
+                          await shrinkIcon();
+                        },
+                        onPointerUp: (event) async {
+                          switchIconColor();
+                          updatelikeCounter();
+                          await growIcon();
+                          await onLikeButtonTapped(
+                              determineLike(context), false, context);
+                        },
+                        //onLikeButtonTapped(determineLike(context), context),
+                        child: ScaleTransition(
+                          scale: _animation,
+                          child:
+                              Icon(Icons.arrow_upward, color: widget.iconColor,size: _iconSize,),
+                        ),
                       ),
-                    ),
-                    Text(widget._entry.likes.toString())
-                  ],
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: DashboardPost.elementTopPadding),
-                      child: Text(
-                        DateFormat(
-                          'EEEE d MMM h:mm',
-                        ).format(widget._entry.createdAt).toString(),
-                        style: TextStyle(
-                            fontSize: DashboardPost.dateSize,
-                            color: Colors.grey),
+                      Text(widget._entry.likes.toString(),style: TextStyle(fontSize: _iconSize / 1.5),)
+                    ],
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: DashboardPost.elementTopPadding),
+                        child: Text(
+                          DateFormat(
+                            'EEEE d MMM h:mm',
+                          ).format(widget._entry.createdAt).toString(),
+                          style: TextStyle(
+                              fontSize: DashboardPost.dateSize,
+                              color: Colors.grey),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ]),
-            )
-          ],
+                ]),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/DashboardConstants.dart';
 import 'package:homeapp/CustomControls/CustomTextEntryDialog.dart';
 import 'package:homeapp/CustomControls/DashboardPost.dart';
-import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 
 class DashBoardPage extends StatelessWidget {
@@ -16,8 +15,10 @@ class DashBoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FirebaseAnimatedList(
-        sort: (DataSnapshot a,DataSnapshot b){return DateTime.parse(a.value[DashboardConstants.createdAt]).difference(DateTime.parse(b.value[DashboardConstants.createdAt])).inSeconds; },
-        query: _databaseReference,//TODO add limit!
+        sort: (DataSnapshot a, DataSnapshot b) {
+          return a.hashCode - b.hashCode;
+        },
+        query: _databaseReference, //TODO add limit!
         defaultChild: Center(child: CircularProgressIndicator()),
         itemBuilder: (BuildContext context, DataSnapshot snapshot,
                 Animation<double> animation, index) =>
@@ -51,20 +52,18 @@ class DashBoardPage extends StatelessWidget {
   }
 
   Future submitPost(String msg, BuildContext context) async {
-    if(msg != null && msg.length > 0 && msg.trim().length > 0)
-    {
+    if (msg != null && msg.length > 0 && msg.trim().length > 0) {
       msg = msg.trim();
       var newChild = _databaseReference.push();
-    Map<String, dynamic> values = Map<String, dynamic>();
-    values[DashboardConstants.createdAt] = DateTime.now().toString();
-    values[DashboardConstants.createdBy] =
-        await BlocProvider.of<AuthenticationBloc>(context).getUserID();
-    values[DashboardConstants.likedByUserIDs] = "";
-    values[DashboardConstants.post] = msg;
+      Map<String, dynamic> values = Map<String, dynamic>();
+      values[DashboardConstants.createdAt] = DateTime.now().toString();
+      values[DashboardConstants.createdBy] =
+          await BlocProvider.of<AuthenticationBloc>(context).getUserID();
+      values[DashboardConstants.likedByUserIDs] = "";
+      values[DashboardConstants.post] = msg;
 
-    await newChild.set(values);
+      await newChild.set(values);
     }
-    
   }
 
   void addPressed(BuildContext context) {
