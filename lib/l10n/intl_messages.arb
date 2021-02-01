@@ -139,5 +139,10 @@
   "@passwordMustMatch": {
     "type": "text",
     "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
   }
 }

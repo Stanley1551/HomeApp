@@ -1,0 +1,3 @@
+enum Locales { 
+  Hungary, England
+}

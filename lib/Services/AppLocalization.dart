@@ -158,6 +158,11 @@ class AppLocalization {
       'passwordMustMatch'
     );
   }
+  String get settings {
+    return Intl.message(
+      'settings'
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization>{

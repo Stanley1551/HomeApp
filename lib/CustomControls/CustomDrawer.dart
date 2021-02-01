@@ -62,23 +62,27 @@ class CustomDrawer extends StatelessWidget {
                 )),
               ),
               ListTile(
+                  leading: Icon(Icons.dashboard),
                   title: Text(AppLocalization.of(context).dashboard),
                   onTap: () {
                     _navigationClicked(context, NavigationDashboard());
                   }),
               ListTile(
+                leading: Icon(Icons.list),
                 title: Text(AppLocalization.of(context).todoList),
                 onTap: () {
                   _navigationClicked(context, NavigationTodoList());
                 },
               ),
               ListTile(
+                leading: Icon(Icons.event),
                 title: Text(AppLocalization.of(context).events),
                 onTap: () {
                   _navigationClicked(context, NavigationEvents());
                 },
               ),
               ListTile(
+                leading: Icon(Icons.shopping_bag),
                 title: Text(AppLocalization.of(context).shoppingList),
                 onTap: () {
                   _navigationClicked(context, NavigationShoppingList());
@@ -86,6 +90,12 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(
                 color: Colors.blueAccent,
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(
+                  AppLocalization.of(context).settings),
+                onTap: () => _navigationClicked(context, NavigationSettings()),
               ),
               ListTile(
                 onTap: () => _logoutClicked(context),

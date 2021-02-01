@@ -9,7 +9,6 @@ class ShoppingListPage extends StatefulWidget {
 class _ShoppingListPageState extends State<ShoppingListPage> {
   void initState() {
     super.initState();
-        AppLocalization.load(Locale('hu','HU'));
   }
 
   @override

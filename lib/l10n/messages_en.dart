@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "todoList" : MessageLookupByLibrary.simpleMessage("Todo-list"),
     "twoweeks" : MessageLookupByLibrary.simpleMessage("2 weeks"),
     "username" : MessageLookupByLibrary.simpleMessage("Username"),
-    "welcomeHome" : MessageLookupByLibrary.simpleMessage("Welcome Home")
+    "welcomeHome" : MessageLookupByLibrary.simpleMessage("Welcome Home"),
+    "settings" : MessageLookupByLibrary.simpleMessage("Settings"),
   };
 }

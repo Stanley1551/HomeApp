@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "todoList" : MessageLookupByLibrary.simpleMessage("Teendők"),
     "twoweeks" : MessageLookupByLibrary.simpleMessage("2 hét"),
     "username" : MessageLookupByLibrary.simpleMessage("Felhasználónév"),
-    "welcomeHome" : MessageLookupByLibrary.simpleMessage("Üdv itthon")
+    "welcomeHome" : MessageLookupByLibrary.simpleMessage("Üdv itthon"),
+    "settings" : MessageLookupByLibrary.simpleMessage("Beállítások")
   };
 }
