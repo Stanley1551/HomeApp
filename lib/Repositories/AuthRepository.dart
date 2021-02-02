@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
+import 'package:homeapp/Constants/LocalEnums.dart';
 import 'package:homeapp/Repositories/Models/Contracts/RegisterResult.dart';
 import 'package:homeapp/Repositories/Models/Contracts/UsersResult.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,8 @@ abstract class AAuthRepository {
   Future<int> getAuthenticatedUserID();
   Future<bool> saveUserID(int id);
   Future<String> retrieveUserNameByID(int id);
+  Future<Locales> retrieveLocale();
+  Future<bool> saveLocale(Locales locale);
   AuthValidator validator;
   AAuthRepository();
 }
@@ -195,5 +198,22 @@ class AuthRepository extends AAuthRepository {
       //TODO: logic for single user
       return null;
     }
+  }
+
+  Future<Locales> retrieveLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    int id = prefs.get('locale');
+    if(id == null){
+      return Locales.England;
+    }
+
+    Locales locale = LocaleTranslator.getLocaleByID(id);
+    return locale;
+  }
+
+  Future<bool> saveLocale(Locales locale) async {
+    final prefs = await SharedPreferences.getInstance();
+    int id = LocaleTranslator.getLocaleID(locale);
+    return await prefs.setInt('locale', id);
   }
 }

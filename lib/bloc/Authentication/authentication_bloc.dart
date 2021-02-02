@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:homeapp/Constants/LocalEnums.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
+import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:meta/meta.dart';
 
 part 'authentication_event.dart';
@@ -30,6 +33,26 @@ class AuthenticationBloc
     return await repo.retrieveUserNameByID(id);
   }
 
+  Future<bool> saveLocale(Locales locale) async {
+    _loadLocale(locale);
+    return await repo.saveLocale(locale);
+  }
+
+  Future<Locales> getLocale() async{
+    var result = await repo.retrieveLocale();
+    return result;
+  }
+
+  void _loadLocale(Locales locale){
+    if(locale == Locales.England){
+      AppLocalization.load(Locale('en','EN'));
+    } else if(locale == Locales.Hungary){
+      AppLocalization.load(Locale('hu','HU'));
+    } else {
+      AppLocalization.load(Locale('en','EN'));
+    }
+  }
+
   @override
   AuthenticationState get initialState => AuthenticationInitial();
 
@@ -45,6 +68,10 @@ class AuthenticationBloc
 
       if (token != null) {
         await saveUserID();
+        var locale = await repo.retrieveLocale();
+        if(locale != null){
+          _loadLocale(locale);
+        }
         yield AuthenticationSucceeded();
       } else {
         yield AuthenticationFailed();

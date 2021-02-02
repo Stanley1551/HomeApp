@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
             appBar: AppBar(
               title: BlocBuilder<NavigationBloc, NavigationState>(
                 builder: (context, state) {
+                  //TODO I18n!
                   return Text(state.title);
                 },
               ),

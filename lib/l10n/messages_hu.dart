@@ -49,6 +49,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "twoweeks" : MessageLookupByLibrary.simpleMessage("2 hét"),
     "username" : MessageLookupByLibrary.simpleMessage("Felhasználónév"),
     "welcomeHome" : MessageLookupByLibrary.simpleMessage("Üdv itthon"),
-    "settings" : MessageLookupByLibrary.simpleMessage("Beállítások")
+    "settings" : MessageLookupByLibrary.simpleMessage("Beállítások"),
+    "english" : MessageLookupByLibrary.simpleMessage("Angol"),
+    "hungary" : MessageLookupByLibrary.simpleMessage("Magyar"),
+    "language" : MessageLookupByLibrary.simpleMessage("Nyelv")
   };
 }

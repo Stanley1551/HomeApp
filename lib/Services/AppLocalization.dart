@@ -163,6 +163,21 @@ class AppLocalization {
       'settings'
     );
   }
+  String get language {
+    return Intl.message(
+      'language'
+    );
+  }
+  String get hungary {
+    return Intl.message(
+      'hungary'
+    );
+  }
+  String get english {
+    return Intl.message(
+      'english'
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization>{

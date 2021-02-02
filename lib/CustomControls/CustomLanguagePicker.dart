@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homeapp/Constants/LocalEnums.dart';
 import 'package:homeapp/Services/AppLocalization.dart';
+import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
 
 class CustomLanguagePicker extends StatefulWidget {
   @override
@@ -13,9 +15,16 @@ class _CustomLanguagePickerState extends State<CustomLanguagePicker> {
   @override
   void initState() {
     super.initState();
+    _setLocale();
+  }
 
-    //TODO: from SharedPrefs
-    _locale = Locales.England;
+  void _setLocale() async {
+    var result = await BlocProvider.of<AuthenticationBloc>(context).getLocale();
+    if(result != null){
+      setState(() {
+        _locale = result;
+      });
+    }
   }
 
   @override
@@ -25,14 +34,14 @@ class _CustomLanguagePickerState extends State<CustomLanguagePicker> {
         children: [
           ListTile(
             //TODO I18n
-            title: Text('Language'),
+            title: Text(AppLocalization.of(context).language),
             subtitle: DropdownButton<Locales>(items: [
-              DropdownMenuItem(child: Text('English'), value: Locales.England,),
-              DropdownMenuItem(child: Text('Hungarian'), value: Locales.Hungary)
+              DropdownMenuItem(child: Text(AppLocalization.of(context).english), value: Locales.England,),
+              DropdownMenuItem(child: Text(AppLocalization.of(context).hungary), value: Locales.Hungary)
             ],
             value: _locale,
             underline: Container(width: 0, height: 0,),
-            onChanged: (val) => _changeLocale(val)),
+            onChanged: (val) => _changeLocale(val, context)),
             trailing: _getFlag(),
           ),
         ],
@@ -58,17 +67,11 @@ class _CustomLanguagePickerState extends State<CustomLanguagePicker> {
             );
   }
 
-  void _changeLocale(Locales val){
+  void _changeLocale(Locales val, BuildContext context){
     setState(() {
       this._locale = val;
     });
 
-    if(val == Locales.England){
-      AppLocalization.load(Locale('en','EN'));
-    } else if(val == Locales.Hungary){
-      AppLocalization.load(Locale('hu','HU'));
-    } else {
-      AppLocalization.load(Locale('en','EN'));
-    }
+    BlocProvider.of<AuthenticationBloc>(context).saveLocale(val);
   }
 }

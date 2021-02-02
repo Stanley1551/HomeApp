@@ -1,3 +1,4 @@
+import 'package:homeapp/Constants/LocalEnums.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
 import 'package:homeapp/Repositories/Models/Contracts/RegisterResult.dart';
 import 'package:homeapp/Repositories/Models/Contracts/LoginResult.dart';
@@ -71,6 +72,18 @@ class MockAuthRepository extends AAuthRepository {
   @override
   Future<String> retrieveUserNameByID(int id) {
     // TODO: implement retrieveUserNameByID
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Locales> retrieveLocale() {
+    // TODO: implement retrieveLocale
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> saveLocale(Locales locale) {
+    // TODO: implement saveLocale
     throw UnimplementedError();
   }
 }

@@ -50,5 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "username" : MessageLookupByLibrary.simpleMessage("Username"),
     "welcomeHome" : MessageLookupByLibrary.simpleMessage("Welcome Home"),
     "settings" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "english" : MessageLookupByLibrary.simpleMessage("English"),
+    "hungary" : MessageLookupByLibrary.simpleMessage("Hungarian"),
+    "language" : MessageLookupByLibrary.simpleMessage("Language")
   };
 }
