@@ -86,4 +86,10 @@ class MockAuthRepository extends AAuthRepository {
     // TODO: implement saveLocale
     throw UnimplementedError();
   }
+
+  @override
+  Future sendNotification(String title, String body) {
+    // TODO: implement sendNotification
+    throw UnimplementedError();
+  }
 }

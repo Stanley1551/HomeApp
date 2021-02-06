@@ -3,5 +3,6 @@
     "getUserPath" : "/auth/users",
     "loginPath" : "/auth/login",
     "registerPath" : "/auth/register",
-    "usersPath" : "/auth/users"
+    "usersPath" : "/auth/users",
+    "notifPath" : "/notif/send"
 }

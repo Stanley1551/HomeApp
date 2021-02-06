@@ -29,12 +29,14 @@ abstract class AAuthRepository {
   Future<bool> saveLocale(Locales locale);
   AuthValidator validator;
   AAuthRepository();
+  Future sendNotification(String title, String body);
 }
 
 class AuthRepository extends AAuthRepository {
   String loginUrl;
   String registerUrl;
   String usersUrl;
+  String notifUrl;
   Map<int, String> useridToName;
   Future<Null> isFetching = null;
 
@@ -43,6 +45,7 @@ class AuthRepository extends AAuthRepository {
     final String loginPath = GlobalConfiguration().getString('loginPath');
     final String registerPath = GlobalConfiguration().getString('registerPath');
     final String usersPath = GlobalConfiguration().getString('usersPath');
+    final String notifPath = GlobalConfiguration().getString('notifPath');
 
     if (url == null || loginPath == null || registerPath == null) {
       throw Exception('Unable to load mandatory configurations!');
@@ -51,6 +54,7 @@ class AuthRepository extends AAuthRepository {
     loginUrl = url + loginPath;
     registerUrl = url + registerPath;
     usersUrl = url + usersPath;
+    notifUrl = url + notifPath;
 
     this.validator =
         AuthValidator((token) => saveToken(token), (id) => saveUserID(id));
@@ -215,5 +219,20 @@ class AuthRepository extends AAuthRepository {
     final prefs = await SharedPreferences.getInstance();
     int id = LocaleTranslator.getLocaleID(locale);
     return await prefs.setInt('locale', id);
+  }
+
+  Future sendNotification(String title, String body) async{
+    Map<String,dynamic> requestBody = {'title': title, 'body': body};
+    String token = await retrieveToken();
+    if(token != null && token != '')
+    {
+      try
+    {
+      await http
+          .post(notifUrl, body: requestBody, headers: {
+            'token': token})
+          .timeout(Duration(seconds: 10));
+    }catch(e){print(e);}
+    }
   }
 }

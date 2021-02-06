@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:homeapp/Constants/LocalEnums.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
@@ -38,18 +39,18 @@ class AuthenticationBloc
     return await repo.saveLocale(locale);
   }
 
-  Future<Locales> getLocale() async{
+  Future<Locales> getLocale() async {
     var result = await repo.retrieveLocale();
     return result;
   }
 
-  void _loadLocale(Locales locale){
-    if(locale == Locales.England){
-      AppLocalization.load(Locale('en','EN'));
-    } else if(locale == Locales.Hungary){
-      AppLocalization.load(Locale('hu','HU'));
+  void _loadLocale(Locales locale) {
+    if (locale == Locales.England) {
+      AppLocalization.load(Locale('en', 'EN'));
+    } else if (locale == Locales.Hungary) {
+      AppLocalization.load(Locale('hu', 'HU'));
     } else {
-      AppLocalization.load(Locale('en','EN'));
+      AppLocalization.load(Locale('en', 'EN'));
     }
   }
 
@@ -69,7 +70,7 @@ class AuthenticationBloc
       if (token != null) {
         await saveUserID();
         var locale = await repo.retrieveLocale();
-        if(locale != null){
+        if (locale != null) {
           _loadLocale(locale);
         }
         yield AuthenticationSucceeded();
@@ -78,6 +79,7 @@ class AuthenticationBloc
       }
     } else if (event is AuthenticationLoggedIn) {
       await saveUserID();
+      await subscribeToChanges();
       yield AuthenticationSucceeded();
     } else if (event is AuthenticationLoggedOut) {
       await repo.deleteToken();
@@ -87,5 +89,14 @@ class AuthenticationBloc
 
   Future saveUserID() async {
     _userID = await repo.getAuthenticatedUserID();
+  }
+
+  Future subscribeToChanges() async {
+    FirebaseMessaging _fcm = FirebaseMessaging();
+    await _fcm.subscribeToTopic('changes');
+  }
+
+  Future composePushNotification(String title, String body) async {
+    await repo.sendNotification(title, body);
   }
 }

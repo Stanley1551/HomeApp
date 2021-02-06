@@ -63,6 +63,10 @@ class DashBoardPage extends StatelessWidget {
       values[DashboardConstants.post] = msg;
 
       await newChild.set(values);
+
+      BlocProvider.of<AuthenticationBloc>(context).composePushNotification(
+        'New post!',
+        ((msg.length > 20) ? msg.substring(0,20)+'...' : msg));
     }
   }
 
