@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:homeapp/Services/AppLocalization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homeapp/CustomControls/ShoppingList.dart';
+import 'package:homeapp/bloc/shopping/shoppingbloc_bloc.dart';
 
-class ShoppingListPage extends StatefulWidget {
-  @override
-  _ShoppingListPageState createState() => _ShoppingListPageState();
-}
-
-class _ShoppingListPageState extends State<ShoppingListPage> {
-  void initState() {
-    super.initState();
-  }
+class ShoppingListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text(AppLocalization.of(context).shoppingList,),),
-      
+    return BlocProvider<ShoppingBloc>(create: (BuildContext context) {
+      return ShoppingBloc()..add(ShoppingListOpened());
+    },
+    lazy: true,
+    child: ShoppingList()
     );
   }
 }
