@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:homeapp/Repositories/AuthRepository.dart';
 import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Authentication/authentication_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/LoginPage.dart';
 import 'Pages/RegisterPage.dart';

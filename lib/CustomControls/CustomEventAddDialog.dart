@@ -1,4 +1,4 @@
-import 'package:date_time_picker/date_time_picker.dart';
+//import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:homeapp/Services/AppLocalization.dart';
 
@@ -35,11 +35,11 @@ class CustomEventAddDialog extends StatelessWidget {
                       hintStyle:
                           TextStyle(fontStyle: FontStyle.italic, fontSize: 13)),
                 ),
-                DateTimePicker(
+                /*DateTimePicker(
                   type: DateTimePickerType.time,
                   icon: Icon(Icons.access_time),
                   controller: _timeController,
-                ),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: RaisedButton(

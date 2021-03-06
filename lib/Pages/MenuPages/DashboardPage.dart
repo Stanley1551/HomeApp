@@ -73,7 +73,7 @@ class DashBoardPage extends StatelessWidget {
   void addPressed(BuildContext context) {
     showDialog(
         context: context,
-        child: CustomTextEntryDialog('Add a message', Icons.edit,
-            submitCallback: (msg) => submitPost(msg, context)));
+        builder: (ctx) { CustomTextEntryDialog('Add a message', Icons.edit,
+            submitCallback: (msg) => submitPost(msg, context));});
   }
 }

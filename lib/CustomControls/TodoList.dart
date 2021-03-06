@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -60,8 +62,10 @@ class TodoList extends StatelessWidget {
     } catch (e) {
       showDialog(
           context: context,
-          child: CustomDialog(
-              'Something went wrong during the process.', Icons.warning));
+          builder: (context) {
+            CustomDialog(
+              'Something went wrong during the process.', Icons.warning);
+          });
     }
   }
 
@@ -99,10 +103,13 @@ class TodoList extends StatelessWidget {
     try {
       await child.update(map);
     } catch (e) {
-      showDialog(
+      if(Platform.isAndroid)
+      {
+        showDialog(
           context: context,
-          child: CustomDialog(
-              'Something went wrong during the process.', Icons.warning));
+          builder: (ctx) { CustomDialog(
+              'Something went wrong during the process.', Icons.warning);});
+      }
     }
   }
 }
