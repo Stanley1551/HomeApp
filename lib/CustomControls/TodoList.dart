@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +62,7 @@ class TodoList extends StatelessWidget {
       showDialog(
           context: context,
           builder: (context) {
-            CustomDialog(
+            return CustomDialog(
               'Something went wrong during the process.', Icons.warning);
           });
     }
@@ -107,7 +106,7 @@ class TodoList extends StatelessWidget {
       {
         showDialog(
           context: context,
-          builder: (ctx) { CustomDialog(
+          builder: (ctx) { return CustomDialog(
               'Something went wrong during the process.', Icons.warning);});
       }
     }

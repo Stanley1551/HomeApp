@@ -38,6 +38,7 @@ class AuthRepository extends AAuthRepository {
   String usersUrl;
   String notifUrl;
   Map<int, String> useridToName;
+  // ignore: avoid_init_to_null
   Future<Null> isFetching = null;
 
   AuthRepository() {
@@ -82,7 +83,7 @@ class AuthRepository extends AAuthRepository {
       result = await http
           .post(loginUrl, body: requestBody.toJson())
           .timeout(Duration(seconds: 10));
-    } on TimeoutException catch (e) {
+    } on TimeoutException {
       return LoginResult(false,
           message: 'Unfortunately, server is not responding.');
     } on SocketException catch (e) {
@@ -109,10 +110,10 @@ class AuthRepository extends AAuthRepository {
       result = await http
           .post(registerUrl, body: requestBody.toJson())
           .timeout(Duration(seconds: 10));
-    } on TimeoutException catch (e) {
+    } on TimeoutException {
       return RegisterResult(false,
           message: 'Unfortunately, server is not responding.');
-    } on Exception catch (e) {
+    } on Exception {
       return RegisterResult(false,
           message: 'Unfortunately, server is not reachable.');
     }

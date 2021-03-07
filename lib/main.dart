@@ -34,7 +34,7 @@ Future loadConfiguration() async {
 
 class MyApp extends StatelessWidget {
   final AAuthRepository repo;
-  AppLocalizationDelegate _localeOverrideDelegate = AppLocalizationDelegate(Locale('hu', 'HU'));
+  final AppLocalizationDelegate _localeOverrideDelegate = AppLocalizationDelegate(Locale('hu', 'HU'));
   MyApp(this.repo);
 
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:homeapp/CustomControls/CustomCircularProgressDialog.dart';
 import 'package:homeapp/CustomControls/CustomDialog.dart';
 import 'package:homeapp/Services/AppLocalization.dart';
 import 'package:homeapp/bloc/Login/login_bloc.dart';
@@ -42,6 +41,7 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Form(
           //manual validation!!!
+          // ignore: deprecated_member_use
           autovalidate: false,
           key: _formKey,
           child: Column(

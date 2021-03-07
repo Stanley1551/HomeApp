@@ -45,6 +45,7 @@ class TodoElement extends StatelessWidget {
               onTap: () => {doneCallback(_entry, id)}),
         ],
         child: ExpandablePanel(
+          // ignore: deprecated_member_use
           hasIcon: false, //not deprecated...
                   header: ListTile(
             title: Text(

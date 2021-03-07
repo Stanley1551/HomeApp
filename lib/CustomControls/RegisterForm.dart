@@ -44,6 +44,7 @@ class _RegisterFormState extends State<RegisterForm> {
           BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
         return Form(
           //manual validation!!!
+          // ignore: deprecated_member_use
           autovalidate: false,
           key: _formKey,
           child: Column(
