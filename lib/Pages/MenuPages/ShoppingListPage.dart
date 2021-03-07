@@ -7,11 +7,7 @@ class ShoppingListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ShoppingBloc>(create: (BuildContext context) {
-      return ShoppingBloc()..add(ShoppingListOpened());
-    },
-    lazy: true,
-    child: ShoppingList()
-    );
+    BlocProvider.of<ShoppingBloc>(context).add(ShoppingListOpened());
+    return ShoppingList();
   }
 }

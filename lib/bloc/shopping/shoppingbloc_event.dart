@@ -5,3 +5,9 @@ abstract class ShoppingblocEvent {
 }
 
 class ShoppingListOpened extends ShoppingblocEvent {}
+
+class ShoppingElementChange extends ShoppingblocEvent {
+  final String key;
+  final bool change;
+  ShoppingElementChange(this.key,this.change);
+}

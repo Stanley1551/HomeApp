@@ -18,6 +18,9 @@ class ShoppingBloc extends Bloc<ShoppingblocEvent, ShoppingblocState> {
       yield ShoppingblocInitial();
       await _loadEntries();
       yield ShoppingListLoaded();
+    } else if(event is ShoppingElementChange){
+      this.shoppingList[event.key] = event.change;
+      yield ShoppingListLoaded();
     }
   }
 
